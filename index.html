@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg: #090909;
+            --bg-elevated: #0f0f0f;
+            --fg: #e8e8e3;
+            --muted: #5a5a5a;
+            --accent: #b8956e;
+            --card: #131313;
+            --border: #222222;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .font-display { font-family: 'Cormorant Garamond', serif; }
+
+        /* Hero Depth Effect */
+        .hero-container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .depth-title {
+            font-size: clamp(3.5rem, 12vw, 11rem);
+            font-weight: 300;
+            letter-spacing: -0.03em;
+            line-height: 0.9;
+            text-align: center;
+            color: var(--fg);
+            position: relative;
+            z-index: 1;
+            user-select: none;
+        }
+
+        .depth-title span {
+            display: block;
+            position: relative;
+        }
+
+        /* Embedded text effect */
+        .depth-title span::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: transparent;
+            -webkit-text-stroke: 0.5px rgba(255,255,255,0.05);
+            z-index: -1;
+        }
+
+        /* Floating Elements */
+        .floating-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .float-card {
+            position: absolute;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 
+                0 25px 50px -12px rgba(0,0,0,0.8),
+                0 0 0 1px rgba(255,255,255,0.05);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+            pointer-events: auto;
+            cursor: pointer;
+            background: var(--card);
+        }
+
+        .float-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .float-card:hover {
+            box-shadow: 
+                0 35px 60px -15px rgba(0,0,0,0.9),
+                0 0 0 1px rgba(255,255,255,0.1);
+            z-index: 20;
+        }
+
+        .float-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Ambient Background */
+        .ambient-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Noise Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 12px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+            background: var(--card);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.4s ease 0.1s;
+        }
+
+        .gallery-item:hover .gallery-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(0,0,0,0.97);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            transform: scale(0.92);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lightbox.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-img {
+            max-width: 92vw;
+            max-height: 88vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* Navigation */
+        .nav-link {
+            position: relative;
+            color: var(--muted);
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--fg);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Scroll indicator */
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--muted), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Button */
+        .btn-primary {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--fg);
+            color: var(--bg);
+            border-radius: 50px;
+            font-weight: 500;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        .btn-primary:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            .scroll-line { animation: none; opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .depth-title { font-size: clamp(2.5rem, 15vw, 4rem); }
+            .gallery-grid { grid-template-columns: repeat(6, 1fr); gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-5 md:px-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="font-display text-xl tracking-wide" style="font-weight: 400;">Portfolio</a>
+            <div class="hidden md:flex gap-10 text-sm">
+                <a href="#work" class="nav-link">Work</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden p-2" aria-label="Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <line x1="3" y1="8" x2="21" y2="8"></line>
+                    <line x1="3" y1="16" x2="21" y2="16"></line>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Depth Effect -->
+    <section class="hero-container">
+        <!-- Ambient Glows -->
+        <div class="ambient-glow" style="background: #2a3a4a; top: 10%; left: 5%;"></div>
+        <div class="ambient-glow" style="background: #4a3a2a; bottom: 10%; right: 5%;"></div>
+
+        <!-- Depth Title -->
+        <h1 class="depth-title font-display">
+            <span data-text="ANTHONY">ANTHONY</span>
+            <span data-text="LEONG" style="font-style: italic; margin-top: 0.1em;">LEONG</span>
+        </h1>
+
+        <!-- Floating Layer -->
+        <div class="floating-layer" id="floatingLayer"></div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20">
+            <span class="text-[10px] uppercase tracking-[0.3em] text-[var(--muted)]">Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="work" class="px-6 md:px-10 py-24 md:py-32">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal mb-16 md:mb-24">
+                <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-4">Selected Projects</p>
+                <h2 class="font-display text-4xl md:text-6xl">Photography</h2>
+            </div>
+
+            <div class="gallery-grid" id="gallery"></div>
+        </div>
+    </section>
+
+   
+
+  
+    <!-- Footer -->
+    <footer class="px-6 md:px-10 py-8 border-t border-[var(--border)]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-sm text-[var(--muted)]">2024 Alex Morgan Photography</p>
+            <div class="flex gap-6">
+                <a href="#" class="text-[var(--muted)] hover:text-[var(--fg)] transition-colors" aria-label="Instagram">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+                <a href="#" class="text-[var(--muted)] hover:text-[var(--fg)] transition-colors" aria-label="Twitter">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+                        <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+                    </svg>
+                </a>
+                <a href="#" class="text-[var(--muted)] hover:text-[var(--fg)] transition-colors" aria-label="LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button id="lightboxClose" class="absolute top-6 right-6 p-2 text-[var(--muted)] hover:text-[var(--fg)] transition-colors z-10" aria-label="Close">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <div class="lightbox-content">
+            <img class="lightbox-img" id="lightboxImg" src="" alt="">
+        </div>
+        <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+            <div>
+                <h3 class="font-display text-2xl" id="lightboxTitle"></h3>
+                <p class="text-sm text-[var(--muted)]" id="lightboxCategory"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === DATA ===
+        const floatingPhotos = [
+            { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=280&h=400&fit=crop', x: '8%', y: '15%', w: 140, h: 200, rotate: -8, depth: 3 },
+            { src: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=220&h=220&fit=crop', x: '72%', y: '20%', w: 110, h: 110, rotate: 10, depth: 2 },
+            { src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=260&fit=crop', x: '18%', y: '58%', w: 100, h: 130, rotate: 5, depth: 2.5 },
+            { src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=240&h=160&fit=crop', x: '62%', y: '65%', w: 120, h: 80, rotate: -4, depth: 1.5 },
+            { src: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=180&h=240&fit=crop', x: '42%', y: '30%', w: 90, h: 120, rotate: 12, depth: 2 },
+            { src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=160&h=200&fit=crop', x: '80%', y: '75%', w: 80, h: 100, rotate: -6, depth: 1 },
+        ];
+
+        const galleryPhotos = [
+            { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&h=1200&fit=crop', title: 'Alpine Dawn', category: 'Landscape', cols: 4, rows: 2 },
+            { src: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&h=400&fit=crop', title: 'Tokyo Nights', category: 'Urban', cols: 3, rows: 1 },
+            { src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=400&fit=crop', title: 'Snow Peak', category: 'Landscape', cols: 3, rows: 1 },
+            { src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop', title: 'Golden Hour', category: 'Portrait', cols: 2, rows: 2 },
+            { src: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&h=400&fit=crop', title: 'Misty Valley', category: 'Nature', cols: 3, rows: 1 },
+            { src: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=900&h=600&fit=crop', title: 'City Dreams', category: 'Urban', cols: 5, rows: 1 },
+            { src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=400&fit=crop', title: 'Forest Light', category: 'Nature', cols: 2, rows: 1 },
+            { src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=400&fit=crop', title: 'Serene Waters', category: 'Landscape', cols: 3, rows: 1 },
+            { src: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=600&h=800&fit=crop', title: 'Ocean Force', category: 'Nature', cols: 2, rows: 2 },
+        ];
+
+        // === FLOATING PHOTOS SETUP ===
+        const floatingLayer = document.getElementById('floatingLayer');
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        floatingPhotos.forEach((photo, i) => {
+            const card = document.createElement('div');
+            card.className = 'float-card';
+            card.style.cssText = `
+                left: ${photo.x}; top: ${photo.y};
+                width: ${photo.w}px; height: ${photo.h}px;
+                transform: rotate(${photo.rotate}deg);
+                z-index: ${Math.round(photo.depth * 2)};
+            `;
+            card.innerHTML = `<img src="${photo.src}" alt="Featured photo ${i + 1}" loading="lazy">`;
+            card.dataset.depth = photo.depth;
+            card.dataset.rotate = photo.rotate;
+            floatingLayer.appendChild(card);
+        });
+
+        // Parallax movement
+        function handleMouseMove(e) {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 60;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 60;
+        }
+
+        function animateFloaters() {
+            targetX += (mouseX - targetX) * 0.08;
+            targetY += (mouseY - targetY) * 0.08;
+
+            document.querySelectorAll('.float-card').forEach(card => {
+                const depth = parseFloat(card.dataset.depth);
+                const baseRotate = parseFloat(card.dataset.rotate);
+                const moveX = targetX * depth;
+                const moveY = targetY * depth;
+                card.style.transform = `rotate(${baseRotate}deg) translate(${moveX}px, ${moveY}px)`;
+            });
+
+            requestAnimationFrame(animateFloaters);
+        }
+
+        document.addEventListener('mousemove', handleMouseMove);
+        if (!prefersReducedMotion) animateFloaters();
+
+        // === GALLERY SETUP ===
+        const gallery = document.getElementById('gallery');
+
+        galleryPhotos.forEach((photo, i) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item reveal';
+            item.style.cssText = `
+                grid-column: span ${photo.cols};
+                grid-row: span ${photo.rows};
+                aspect-ratio: ${photo.cols}/${photo.rows};
+                transition-delay: ${i * 0.08}s;
+            `;
+            item.innerHTML = `
+                <img src="${photo.src}" alt="${photo.title}" loading="lazy">
+                <div class="gallery-overlay"></div>
+                <div class="gallery-info">
+                    <h3 class="font-display text-lg">${photo.title}</h3>
+                    <p class="text-xs text-[var(--muted)] uppercase tracking-wider">${photo.category}</p>
+                </div>
+            `;
+            item.addEventListener('click', () => openLightbox(photo));
+            gallery.appendChild(item);
+        });
+
+        // === LIGHTBOX ===
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxCategory = document.getElementById('lightboxCategory');
+
+        function openLightbox(photo) {
+            lightboxImg.src = photo.src.replace(/w=\d+/, 'w=1400').replace(/h=\d+/, 'h=1000');
+            lightboxImg.alt = photo.title;
+            lightboxTitle.textContent = photo.title;
+            lightboxCategory.textContent = photo.category;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightboxFn() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('lightboxClose').addEventListener('click', closeLightboxFn);
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightboxFn(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightboxFn(); });
+
+        // === SCROLL REVEAL ===
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '-50px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // === TITLE FADE ON SCROLL ===
+        const depthTitle = document.querySelector('.depth-title');
+        const heroContainer = document.querySelector('.hero-container');
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const heroHeight = heroContainer.offsetHeight;
+            const opacity = 1 - (scrollY / (heroHeight * 0.5));
+            depthTitle.style.opacity = Math.max(0, Math.min(1, opacity));
+        }, { passive: true });
+
+        // === SMOOTH SCROLL ===
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

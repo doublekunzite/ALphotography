@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photography Portfolio</title>
+    <title>Anthony Leong | Photography</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -33,7 +33,24 @@
 
         .font-display { font-family: 'Cormorant Garamond', serif; }
 
-        /* Hero Depth Effect */
+        /* View Transitions */
+        .view-section {
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            pointer-events: none;
+        }
+
+        .view-section.active {
+            opacity: 1;
+            visibility: visible;
+            position: relative;
+            pointer-events: auto;
+        }
+
+        /* Hero Styles */
         .hero-container {
             position: relative;
             min-height: 100vh;
@@ -54,537 +71,564 @@
             z-index: 1;
             user-select: none;
         }
-
-        .depth-title span {
-            display: block;
-            position: relative;
-        }
-
-        /* Embedded text effect */
+        .depth-title span { display: block; position: relative; }
         .depth-title span::before {
             content: attr(data-text);
-            position: absolute;
-            left: 0;
-            top: 0;
+            position: absolute; left: 0; top: 0;
             color: transparent;
             -webkit-text-stroke: 0.5px rgba(255,255,255,0.05);
             z-index: -1;
         }
 
-        /* Floating Elements */
+        /* Floating Cards */
         .floating-layer {
             position: absolute;
             inset: 0;
             pointer-events: none;
             z-index: 10;
         }
-
         .float-card {
             position: absolute;
             border-radius: 6px;
             overflow: hidden;
-            box-shadow: 
-                0 25px 50px -12px rgba(0,0,0,0.8),
-                0 0 0 1px rgba(255,255,255,0.05);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: auto;
             cursor: pointer;
             background: var(--card);
         }
+        .float-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        .float-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .float-card:hover {
-            box-shadow: 
-                0 35px 60px -15px rgba(0,0,0,0.9),
-                0 0 0 1px rgba(255,255,255,0.1);
-            z-index: 20;
-        }
-
-        .float-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Ambient Background */
+        /* Ambient & Noise */
         .ambient-glow {
             position: absolute;
-            width: 600px;
-            height: 600px;
+            width: 600px; height: 600px;
             border-radius: 50%;
             filter: blur(120px);
             opacity: 0.15;
             pointer-events: none;
         }
-
-        /* Noise Overlay */
         .noise-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            pointer-events: none;
-            opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            position: fixed; inset: 0; z-index: 9999;
+            pointer-events: none; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
-
-        /* Gallery Grid */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 12px;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 4px;
-            cursor: pointer;
-            background: var(--card);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-
-        .gallery-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            transform: translateY(10px);
-            opacity: 0;
-            transition: all 0.4s ease 0.1s;
-        }
-
-        .gallery-item:hover .gallery-info {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* Lightbox */
-        .lightbox {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            background: rgba(0,0,0,0.97);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .lightbox.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .lightbox-content {
-            transform: scale(0.92);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .lightbox.active .lightbox-content {
-            transform: scale(1);
-        }
-
-        .lightbox-img {
-            max-width: 92vw;
-            max-height: 88vh;
-            object-fit: contain;
-            border-radius: 4px;
-        }
-
-        /* Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
 
         /* Navigation */
-        .nav-link {
-            position: relative;
-            color: var(--muted);
-            transition: color 0.3s ease;
+        .nav-container {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 50;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            mix-blend-mode: difference;
         }
-
+        
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--fg);
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 4px;
+            transition: opacity 0.3s;
+        }
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--accent);
+            bottom: 0; left: 0;
+            width: 0; height: 1px;
+            background: currentColor;
             transition: width 0.3s ease;
         }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: var(--accent); }
 
-        .nav-link:hover {
-            color: var(--fg);
+        /* Page Titles */
+        .page-header {
+            padding: 8rem 2rem 2rem;
+            text-align: center;
+        }
+        .page-title {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+        .page-subtitle {
+            color: var(--muted);
+            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .nav-link:hover::after {
+        /* === LAYOUTS === */
+
+        /* 1. Urban: Bento Grid */
+        .urban-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 12px;
+            padding: 0 1rem 4rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .urban-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            background: var(--card);
+            cursor: pointer;
+        }
+        .urban-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .urban-item:hover img { transform: scale(1.05); }
+
+        /* 2. Portrait: Vertical Slider */
+        .portrait-container {
+            height: 100vh;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        .portrait-slide {
+            height: 100vh;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .portrait-img-container {
+            height: 70vh;
+            max-width: 900px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8);
+        }
+        .portrait-img-container img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+        .portrait-meta {
+            position: absolute;
+            bottom: -3rem;
+            left: 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease 0.3s;
+        }
+        .portrait-slide:hover .portrait-meta {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 3. Landscape: Horizontal Scroll */
+        .landscape-wrapper {
+            height: 100vh;
             width: 100%;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            align-items: center;
+            background: #050505;
+        }
+        .landscape-item {
+            flex: 0 0 80vw;
+            max-width: 1200px;
+            height: 70vh;
+            margin: 0 5vw;
+            scroll-snap-align: center;
+            position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+        .landscape-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 1s ease;
+        }
+        .landscape-item:hover img { transform: scale(1.02); }
+
+        /* 4. Experimental: Chaos Grid */
+        .exp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 4rem;
+            padding: 4rem;
+            padding-top: 10rem;
+        }
+        .exp-item {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+        .exp-item:nth-child(odd) { transform: rotate(-2deg) translateY(20px); }
+        .exp-item:nth-child(even) { transform: rotate(2deg); }
+        .exp-item:nth-child(3n) { transform: rotate(-1deg) scale(1.05); }
+        
+        .exp-item:hover {
+            z-index: 10;
+            transform: rotate(0deg) scale(1.1) !important;
+            box-shadow: 0 40px 70px -20px rgba(0,0,0,0.9);
+        }
+        .exp-item img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            border-radius: 4px;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6);
         }
 
-        /* Scroll indicator */
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 2rem; left: 2rem;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--fg);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            background: rgba(0,0,0,0.5);
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+        .back-btn.visible { opacity: 1; visibility: visible; }
+        .back-btn:hover { background: var(--fg); color: var(--bg); }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--muted);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
         .scroll-line {
             width: 1px;
-            height: 60px;
+            height: 40px;
             background: linear-gradient(to bottom, var(--muted), transparent);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        /* Button */
-        .btn-primary {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 32px;
-            background: var(--fg);
-            color: var(--bg);
-            border-radius: 50px;
-            font-weight: 500;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--accent);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.4s ease;
-        }
-
-        .btn-primary:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        .btn-primary span {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
-
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-            .scroll-line { animation: none; opacity: 1; }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .depth-title { font-size: clamp(2.5rem, 15vw, 4rem); }
-            .gallery-grid { grid-template-columns: repeat(6, 1fr); gap: 8px; }
+            .nav-links { gap: 1rem; }
+            .urban-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 0 0.5rem 2rem; }
+            .landscape-item { flex: 0 0 90vw; height: 50vh; margin: 0 5vw; }
+            .exp-grid { padding: 2rem; gap: 2rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Noise Overlay -->
+
     <div class="noise-overlay"></div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-5 md:px-10">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" class="font-display text-xl tracking-wide" style="font-weight: 400;">Portfolio</a>
-            <div class="hidden md:flex gap-10 text-sm">
-                <a href="#work" class="nav-link">Work</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
-            <button id="mobile-menu-btn" class="md:hidden p-2" aria-label="Menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <line x1="3" y1="8" x2="21" y2="8"></line>
-                    <line x1="3" y1="16" x2="21" y2="16"></line>
-                </svg>
-            </button>
+    <nav class="nav-container">
+        <a href="#" onclick="navigateTo('home')" class="font-display text-xl tracking-wide" style="font-weight: 400; text-decoration: none; color: var(--fg);">Portfolio</a>
+        <div class="nav-links">
+            <a href="#" onclick="navigateTo('urban')" class="nav-link" data-view="urban">Urban</a>
+            <a href="#" onclick="navigateTo('portrait')" class="nav-link" data-view="portrait">Portrait</a>
+            <a href="#" onclick="navigateTo('landscape')" class="nav-link" data-view="landscape">Landscape</a>
+            <a href="#" onclick="navigateTo('experimental')" class="nav-link" data-view="experimental">Exp</a>
         </div>
     </nav>
 
-    <!-- Hero Section with Depth Effect -->
-    <section class="hero-container">
-        <!-- Ambient Glows -->
-        <div class="ambient-glow" style="background: #2a3a4a; top: 10%; left: 5%;"></div>
-        <div class="ambient-glow" style="background: #4a3a2a; bottom: 10%; right: 5%;"></div>
+    <!-- Back Button (visible on internal pages) -->
+    <button class="back-btn" id="backBtn" onclick="navigateTo('home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back Home
+    </button>
 
-        <!-- Depth Title -->
-        <h1 class="depth-title font-display">
-            <span data-text="ANTHONY">ANTHONY</span>
-            <span data-text="LEONG" style="font-style: italic; margin-top: 0.1em;">LEONG</span>
-        </h1>
+    <!-- HOME VIEW -->
+    <section id="view-home" class="view-section active">
+        <div class="hero-container">
+            <div class="ambient-glow" style="background: #2a3a4a; top: 10%; left: 5%;"></div>
+            <div class="ambient-glow" style="background: #4a3a2a; bottom: 10%; right: 5%;"></div>
 
-        <!-- Floating Layer -->
-        <div class="floating-layer" id="floatingLayer"></div>
+            <h1 class="depth-title font-display">
+                <span data-text="ANTHONY">ANTHONY</span>
+                <span data-text="LEONG" style="font-style: italic; margin-top: 0.1em;">LEONG</span>
+            </h1>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20">
-            <span class="text-[10px] uppercase tracking-[0.3em] text-[var(--muted)]">Scroll</span>
-            <div class="scroll-line"></div>
+            <div class="floating-layer" id="floatingLayer"></div>
+
+            <div class="scroll-indicator">
+                <span>Scroll</span>
+                <div class="scroll-line"></div>
+            </div>
+        </div>
+
+        <!-- Home Gallery Preview (Optional, keeping it simple to focus on Categories) -->
+        <div class="py-24 px-6 text-center">
+            <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-4">Categories</p>
+            <div class="flex flex-wrap justify-center gap-8 mt-8">
+                <div onclick="navigateTo('urban')" class="cursor-pointer group">
+                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Urban</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">Architecture & Streets</p>
+                </div>
+                <div onclick="navigateTo('portrait')" class="cursor-pointer group">
+                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Portrait</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">People & Pets</p>
+                </div>
+                <div onclick="navigateTo('landscape')" class="cursor-pointer group">
+                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Landscape</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">Nature & Places</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Gallery Section -->
-    <section id="work" class="px-6 md:px-10 py-24 md:py-32">
-        <div class="max-w-7xl mx-auto">
-            <div class="reveal mb-16 md:mb-24">
-                <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-4">Selected Projects</p>
-                <h2 class="font-display text-4xl md:text-6xl">Photography</h2>
-            </div>
-
-            <div class="gallery-grid" id="gallery"></div>
+    <!-- URBAN VIEW (Bento Grid) -->
+    <section id="view-urban" class="view-section">
+        <div class="page-header">
+            <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Category</p>
+            <h1 class="font-display page-title">Urban</h1>
+            <p class="page-subtitle">Architecture and the organized chaos of city life.</p>
         </div>
+        <div class="urban-grid" id="urbanGrid"></div>
     </section>
 
-   
+    <!-- PORTRAIT VIEW (Vertical Slider) -->
+    <section id="view-portrait" class="view-section">
+        <div class="portrait-container" id="portraitContainer"></div>
+    </section>
 
-  
-    <!-- Footer -->
-    <footer class="px-6 md:px-10 py-8 border-t border-[var(--border)]">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-sm text-[var(--muted)]">2026 Anthony Leong Photography</p>
-            <div class="flex gap-6">
-                <a href="#" class="text-[var(--muted)] hover:text-[var(--fg)] transition-colors" aria-label="Instagram">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                </a>
-                <a href="#" class="text-[var(--muted)] hover:text-[var(--fg)] transition-colors" aria-label="Twitter">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-                        <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-                    </svg>
-                </a>
-                <a href="#" class="text-[var(--muted)] hover:text-[var(--fg)] transition-colors" aria-label="LinkedIn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                        <rect x="2" y="9" width="4" height="12"></rect>
-                        <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                </a>
-            </div>
+    <!-- LANDSCAPE VIEW (Horizontal Scroll) -->
+    <section id="view-landscape" class="view-section">
+        <div class="page-header" style="position: absolute; width: 100%; z-index: 10; pointer-events: none;">
+            <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Category</p>
+            <h1 class="font-display page-title">Landscape</h1>
         </div>
+        <div class="landscape-wrapper" id="landscapeWrapper"></div>
+    </section>
+
+    <!-- EXPERIMENTAL VIEW (Chaos) -->
+    <section id="view-experimental" class="view-section">
+        <div class="exp-grid" id="expGrid"></div>
+    </section>
+
+    <!-- Minimal Footer -->
+    <footer class="fixed bottom-0 left-0 right-0 p-6 text-center text-xs text-[var(--muted)] pointer-events-none z-40">
+        2026 Anthony Leong
     </footer>
-
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
-        <button id="lightboxClose" class="absolute top-6 right-6 p-2 text-[var(--muted)] hover:text-[var(--fg)] transition-colors z-10" aria-label="Close">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
-        <div class="lightbox-content">
-            <img class="lightbox-img" id="lightboxImg" src="" alt="">
-        </div>
-        <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
-            <div>
-                <h3 class="font-display text-2xl" id="lightboxTitle"></h3>
-                <p class="text-sm text-[var(--muted)]" id="lightboxCategory"></p>
-            </div>
-        </div>
-    </div>
 
     <script>
         // === DATA ===
-        const floatingPhotos = [
-            { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', x: '8%', y: '15%', w: 140, h: 200, rotate: -8, depth: 3 },
-            { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', x: '72%', y: '20%', w: 110, h: 110, rotate: 10, depth: 2 },
-            { src: 'https://live.staticflickr.com/65535/55157135330_cda3526096_b.jpg', x: '18%', y: '58%', w: 100, h: 130, rotate: 5, depth: 2.5 },
-            { src: 'https://live.staticflickr.com/65535/55155867012_8cc0bf1607_b.jpg', x: '62%', y: '65%', w: 120, h: 80, rotate: -4, depth: 1.5 },
-            { src: 'https://live.staticflickr.com/65535/55156995094_fd711e2aa3_b.jpg', x: '42%', y: '30%', w: 90, h: 120, rotate: 12, depth: 2 },
-            { src: 'https://live.staticflickr.com/65535/55156758501_a6b7f87721_b.jpg', x: '80%', y: '75%', w: 80, h: 100, rotate: -6, depth: 1 },
-        ];
-		
+        const siteData = {
+            floating: [
+                { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', x: '8%', y: '15%', w: 140, h: 200, rotate: -8, depth: 3 },
+                { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', x: '72%', y: '20%', w: 110, h: 110, rotate: 10, depth: 2 },
+                { src: 'https://live.staticflickr.com/65535/55157135330_cda3526096_b.jpg', x: '18%', y: '58%', w: 100, h: 130, rotate: 5, depth: 2.5 },
+                { src: 'https://live.staticflickr.com/65535/55155867012_8cc0bf1607_b.jpg', x: '62%', y: '65%', w: 120, h: 80, rotate: -4, depth: 1.5 },
+                { src: 'https://live.staticflickr.com/65535/55156995094_fd711e2aa3_b.jpg', x: '42%', y: '30%', w: 90, h: 120, rotate: 12, depth: 2 },
+                { src: 'https://live.staticflickr.com/65535/55156758501_a6b7f87721_b.jpg', x: '80%', y: '75%', w: 80, h: 100, rotate: -6, depth: 1 },
+            ],
+            urban: [
+                { src: 'https://live.staticflickr.com/65535/55157003279_d8b9ce545e_b.jpg', title: 'Shenzhen North', size: 'large' },
+                { src: 'https://live.staticflickr.com/65535/55157003329_107449d282_b.jpg', title: 'Downtown Chongqing', size: 'medium' },
+                { src: 'https://live.staticflickr.com/65535/55156922828_c9809cac24_b.jpg', title: 'Mall Architecture', size: 'medium' },
+                { src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Tech Hub', size: 'small' },
+                { src: 'https://live.staticflickr.com/65535/55155852537_6ff76a7cea_b.jpg', title: 'Symmetry', size: 'small' },
+                { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', title: 'Vertical City', size: 'wide' },
+            ],
+            portrait: [
+                { src: 'https://live.staticflickr.com/65535/55155852537_6ff76a7cea_b.jpg', title: 'Feline Grace', sub: 'Studio Work' },
+                { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', title: 'Contemplation', sub: 'Street Portrait' },
+                { src: 'https://live.staticflickr.com/65535/55156995094_fd711e2aa3_b.jpg', title: 'Shadows', sub: 'Natural Light' },
+            ],
+            landscape: [
+                { src: 'https://live.staticflickr.com/65535/55157552599_60ff8894e6_b.jpg', title: 'The Path' },
+                { src: 'https://live.staticflickr.com/65535/55157135330_cda3526096_b.jpg', title: 'Horizons' },
+                { src: 'https://live.staticflickr.com/65535/55155867012_8cc0bf1607_b.jpg', title: 'Serenity' },
+            ],
+            experimental: [
+                { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', title: 'Abstract Form' },
+                { src: 'https://live.staticflickr.com/65535/55156758501_a6b7f87721_b.jpg', title: 'Double Exposure' },
+                { src: 'https://live.staticflickr.com/65535/55156922828_c9809cac24_b.jpg', title: 'Glitch' },
+                { src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Mosaic' },
+            ]
+        };
 
-        const galleryPhotos = [
-		    { src: 'https://live.staticflickr.com/65535/55155852537_6ff76a7cea_b.jpg', title: 'Cat Portrait', category: 'Portrait', cols: 2, rows: 4 },
-			{ src: 'https://live.staticflickr.com/65535/55157003279_d8b9ce545e_b.jpg', title: 'Shenzhen North', category: 'Urban', cols: 3, rows: 2 },    
-            			{ src: 'https://live.staticflickr.com/65535/55157552599_60ff8894e6_b.jpg', title: 'Bike Path', category: 'Landscape', cols: 3, rows: 2 },
-					    { src: 'https://live.staticflickr.com/65535/55157003329_107449d282_b.jpg', title: 'Downtown Chongqing', category: 'Urban', cols: 2, rows: 4 },
-			{ src: 'https://live.staticflickr.com/65535/55156922828_c9809cac24_b.jpg', title: 'Chongqing Mall', category: 'Urban', cols: 3, rows: 2 },
-	   		{ src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Shenzhen Tech', category: 'Urban', cols: 3, rows: 2 },
+        // === ROUTER ===
+        const views = document.querySelectorAll('.view-section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const backBtn = document.getElementById('backBtn');
 
-	   ];
+        function navigateTo(viewName) {
+            // Hide all views
+            views.forEach(v => v.classList.remove('active'));
+            navLinks.forEach(l => l.classList.remove('active'));
 
-        // === FLOATING PHOTOS SETUP ===
-        const floatingLayer = document.getElementById('floatingLayer');
-        let mouseX = 0, mouseY = 0;
-        let targetX = 0, targetY = 0;
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        floatingPhotos.forEach((photo, i) => {
-            const card = document.createElement('div');
-            card.className = 'float-card';
-            card.style.cssText = `
-                left: ${photo.x}; top: ${photo.y};
-                width: ${photo.w}px; height: ${photo.h}px;
-                transform: rotate(${photo.rotate}deg);
-                z-index: ${Math.round(photo.depth * 2)};
-            `;
-            card.innerHTML = `<img src="${photo.src}" alt="Featured photo ${i + 1}" loading="lazy">`;
-            card.dataset.depth = photo.depth;
-            card.dataset.rotate = photo.rotate;
-            floatingLayer.appendChild(card);
-        });
-
-        // Parallax movement
-        function handleMouseMove(e) {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 60;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 60;
+            // Show target view
+            const targetView = document.getElementById(`view-${viewName}`);
+            if(targetView) {
+                targetView.classList.add('active');
+                
+                // Handle Nav state
+                const correspondingLink = document.querySelector(`.nav-link[data-view="${viewName}"]`);
+                if(correspondingLink) correspondingLink.classList.add('active');
+                
+                // Show back button if not home
+                if(viewName !== 'home') {
+                    backBtn.classList.add('visible');
+                    document.body.style.overflow = 'auto'; // Reset scroll behavior
+                } else {
+                    backBtn.classList.remove('visible');
+                }
+                
+                // Special scroll resets
+                if(viewName === 'portrait') {
+                    document.getElementById('portraitContainer').scrollTop = 0;
+                } 
+                if(viewName === 'landscape') {
+                    document.getElementById('landscapeWrapper').scrollLeft = 0;
+                }
+            }
+            
+            // Prevent default anchor jump
+            return false;
         }
 
-        function animateFloaters() {
-            targetX += (mouseX - targetX) * 0.08;
-            targetY += (mouseY - targetY) * 0.08;
+        // === GENERATION FUNCTIONS ===
 
-            document.querySelectorAll('.float-card').forEach(card => {
-                const depth = parseFloat(card.dataset.depth);
-                const baseRotate = parseFloat(card.dataset.rotate);
-                const moveX = targetX * depth;
-                const moveY = targetY * depth;
-                card.style.transform = `rotate(${baseRotate}deg) translate(${moveX}px, ${moveY}px)`;
+        // 1. Home Floating Layer
+        function initHome() {
+            const layer = document.getElementById('floatingLayer');
+            layer.innerHTML = '';
+            let mouseX = 0, mouseY = 0;
+            let targetX = 0, targetY = 0;
+
+            siteData.floating.forEach((p, i) => {
+                const card = document.createElement('div');
+                card.className = 'float-card';
+                card.style.cssText = `left: ${p.x}; top: ${p.y}; width: ${p.w}px; height: ${p.h}px; transform: rotate(${p.rotate}deg);`;
+                card.innerHTML = `<img src="${p.src}" alt="Float ${i}">`;
+                card.dataset.depth = p.depth;
+                card.dataset.rotate = p.rotate;
+                layer.appendChild(card);
             });
 
-            requestAnimationFrame(animateFloaters);
-        }
-
-        document.addEventListener('mousemove', handleMouseMove);
-        if (!prefersReducedMotion) animateFloaters();
-
-        // === GALLERY SETUP ===
-        const gallery = document.getElementById('gallery');
-
-        galleryPhotos.forEach((photo, i) => {
-            const item = document.createElement('div');
-            item.className = 'gallery-item reveal';
-            item.style.cssText = `
-                grid-column: span ${photo.cols};
-                grid-row: span ${photo.rows};
-                aspect-ratio: ${photo.cols}/${photo.rows};
-                transition-delay: ${i * 0.08}s;
-            `;
-            item.innerHTML = `
-                <img src="${photo.src}" alt="${photo.title}" loading="lazy">
-                <div class="gallery-overlay"></div>
-                <div class="gallery-info">
-                    <h3 class="font-display text-lg">${photo.title}</h3>
-                    <p class="text-xs text-[var(--muted)] uppercase tracking-wider">${photo.category}</p>
-                </div>
-            `;
-            item.addEventListener('click', () => openLightbox(photo));
-            gallery.appendChild(item);
-        });
-
-        // === LIGHTBOX ===
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightboxImg');
-        const lightboxTitle = document.getElementById('lightboxTitle');
-        const lightboxCategory = document.getElementById('lightboxCategory');
-
-        function openLightbox(photo) {
-            lightboxImg.src = photo.src.replace(/w=\d+/, 'w=1400').replace(/h=\d+/, 'h=1000');
-            lightboxImg.alt = photo.title;
-            lightboxTitle.textContent = photo.title;
-            lightboxCategory.textContent = photo.category;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLightboxFn() {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        document.getElementById('lightboxClose').addEventListener('click', closeLightboxFn);
-        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightboxFn(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightboxFn(); });
-
-        // === SCROLL REVEAL ===
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth - 0.5) * 40;
+                mouseY = (e.clientY / window.innerHeight - 0.5) * 40;
             });
-        }, { threshold: 0.1, rootMargin: '-50px' });
 
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+            function animate() {
+                targetX += (mouseX - targetX) * 0.08;
+                targetY += (mouseY - targetY) * 0.08;
+                document.querySelectorAll('.float-card').forEach(c => {
+                    const d = parseFloat(c.dataset.depth);
+                    const r = parseFloat(c.dataset.rotate);
+                    c.style.transform = `rotate(${r}deg) translate(${targetX * d}px, ${targetY * d}px)`;
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
 
-        // === TITLE FADE ON SCROLL ===
-        const depthTitle = document.querySelector('.depth-title');
-        const heroContainer = document.querySelector('.hero-container');
+        // 2. Urban Grid (Bento)
+        function initUrban() {
+            const grid = document.getElementById('urbanGrid');
+            grid.innerHTML = '';
+            
+            // Helper for grid placement (simplified bento logic)
+            const sizes = {
+                large: 'grid-column: span 6; grid-row: span 2; aspect-ratio: 2/1;',
+                medium: 'grid-column: span 4; grid-row: span 2; aspect-ratio: 1/1.2;',
+                small: 'grid-column: span 2; grid-row: span 1; aspect-ratio: 1/1;',
+                wide: 'grid-column: span 8; grid-row: span 1; aspect-ratio: 3/1;'
+            };
 
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const heroHeight = heroContainer.offsetHeight;
-            const opacity = 1 - (scrollY / (heroHeight * 0.5));
-            depthTitle.style.opacity = Math.max(0, Math.min(1, opacity));
-        }, { passive: true });
-
-        // === SMOOTH SCROLL ===
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            siteData.urban.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'urban-item';
+                item.style.cssText = sizes[p.size] || sizes.medium;
+                item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
+                grid.appendChild(item);
             });
+        }
+
+        // 3. Portrait Slider
+        function initPortrait() {
+            const container = document.getElementById('portraitContainer');
+            container.innerHTML = '';
+            
+            siteData.portrait.forEach(p => {
+                const slide = document.createElement('div');
+                slide.className = 'portrait-slide';
+                slide.innerHTML = `
+                    <div class="portrait-img-container">
+                        <img src="${p.src}" alt="${p.title}">
+                    </div>
+                    <div class="portrait-meta">
+                        <h3 class="font-display text-3xl">${p.title}</h3>
+                        <p class="text-xs text-[var(--muted)] uppercase tracking-widest">${p.sub}</p>
+                    </div>
+                `;
+                container.appendChild(slide);
+            });
+        }
+
+        // 4. Landscape Scroll
+        function initLandscape() {
+            const wrapper = document.getElementById('landscapeWrapper');
+            wrapper.innerHTML = '';
+            
+            siteData.landscape.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'landscape-item';
+                item.innerHTML = `
+                    <img src="${p.src}" alt="${p.title}">
+                    <div class="absolute bottom-8 left-8 font-display text-4xl mix-blend-difference text-white">${p.title}</div>
+                `;
+                wrapper.appendChild(item);
+            });
+        }
+
+        // 5. Experimental
+        function initExperimental() {
+            const grid = document.getElementById('expGrid');
+            grid.innerHTML = '';
+            
+            siteData.experimental.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'exp-item';
+                item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
+                grid.appendChild(item);
+            });
+        }
+
+        // Initialize All
+        document.addEventListener('DOMContentLoaded', () => {
+            initHome();
+            initUrban();
+            initPortrait();
+            initLandscape();
+            initExperimental();
         });
     </script>
 </body>

@@ -236,10 +236,21 @@
             width: 100%;
             display: flex;
             overflow-x: auto;
+            overflow-y: hidden; /* Prevent vertical scroll */
             scroll-snap-type: x mandatory;
             align-items: center;
             background: #050505;
         }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .landscape-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .landscape-wrapper {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
         .landscape-item {
             flex: 0 0 80vw;
             max-width: 1200px;
@@ -306,6 +317,7 @@
             padding: 0.75rem 1.25rem;
             border-radius: 50px;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .back-btn.visible { opacity: 1; visibility: visible; }
         .back-btn:hover { background: var(--fg); color: var(--bg); }
@@ -382,7 +394,7 @@
             </div>
         </div>
 
-        <!-- Home Gallery Preview (Optional, keeping it simple to focus on Categories) -->
+        <!-- Home Gallery Preview -->
         <div class="py-24 px-6 text-center">
             <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-4">Categories</p>
             <div class="flex flex-wrap justify-center gap-8 mt-8">
@@ -397,6 +409,11 @@
                 <div onclick="navigateTo('landscape')" class="cursor-pointer group">
                     <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Landscape</h3>
                     <p class="text-[var(--muted)] text-sm mt-2">Nature & Places</p>
+                </div>
+                <!-- Added Experimental Link Here -->
+                <div onclick="navigateTo('experimental')" class="cursor-pointer group">
+                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Experimental</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">Chaos & Art</p>
                 </div>
             </div>
         </div>
@@ -452,8 +469,6 @@
                 { src: 'https://live.staticflickr.com/65535/55157003329_107449d282_b.jpg', title: 'Downtown Chongqing', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55156922828_c9809cac24_b.jpg', title: 'Mall Architecture', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Tech Hub', size: 'small' },
-                { src: 'https://live.staticflickr.com/65535/55155852537_6ff76a7cea_b.jpg', title: 'Symmetry', size: 'small' },
-                { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', title: 'Vertical City', size: 'wide' },
             ],
             portrait: [
                 { src: 'https://live.staticflickr.com/65535/55155852537_6ff76a7cea_b.jpg', title: 'Feline Grace', sub: 'Studio Work' },
@@ -607,6 +622,15 @@
                 `;
                 wrapper.appendChild(item);
             });
+
+            // FIX: Map vertical scroll to horizontal scroll
+            wrapper.addEventListener('wheel', (e) => {
+                // Check if the scroll is vertical
+                if (e.deltaY !== 0) {
+                    e.preventDefault(); // Stop vertical page scroll
+                    wrapper.scrollLeft += e.deltaY; // Apply to horizontal scroll
+                }
+            }, { passive: false }); // passive:false is required to use preventDefault
         }
 
         // 5. Experimental

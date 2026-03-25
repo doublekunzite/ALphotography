@@ -126,7 +126,7 @@
             mix-blend-mode: difference;
         }
         
-        .nav-links { display: flex; gap: 2rem; }
+        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: flex-end; }
         .nav-link {
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -166,7 +166,7 @@
 
         /* === LAYOUTS === */
 
-        /* 1. Urban: Bento Grid */
+        /* 1. Urban: Bento Grid (Maintained) */
         .urban-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
@@ -189,7 +189,73 @@
         }
         .urban-item:hover img { transform: scale(1.05); }
 
-        /* 2. Portrait: Vertical Slider */
+        /* 2. Nature: Masonry Layout (New) */
+        /* Technical note: Uses CSS columns for a true masonry effect without JS library */
+        .nature-masonry {
+            column-count: 3;
+            column-gap: 16px;
+            padding: 0 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .nature-item {
+            break-inside: avoid;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            background: var(--card);
+            cursor: pointer;
+        }
+        .nature-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: filter 0.4s ease;
+        }
+        .nature-item:hover img {
+            filter: brightness(1.1);
+        }
+
+        /* 3. Landscape: Polaroid Stack (New) */
+        .landscape-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem 2rem 8rem;
+            background: linear-gradient(to bottom, #050505, #0a0a0a);
+        }
+        .polaroid-card {
+            background: #f4f4f0;
+            padding: 1rem 1rem 3rem 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 500px;
+            width: 90%;
+            transform: rotate(var(--r));
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+        }
+        .polaroid-card img {
+            width: 100%;
+            height: auto;
+            filter: grayscale(20%) contrast(110%); /* Analog feel */
+        }
+        .polaroid-card figcaption {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: #333;
+            font-style: italic;
+        }
+        .polaroid-card:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* 4. Portrait: Vertical Slider (Maintained) */
         .portrait-container {
             height: 100vh;
             overflow-y: auto;
@@ -230,47 +296,7 @@
             transform: translateY(0);
         }
 
-        /* 3. Landscape: Horizontal Scroll */
-        /* Key Fix: Constrain the view section itself */
-        #view-landscape.active {
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .landscape-wrapper {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            align-items: center;
-            background: #050505;
-            /* Hide scrollbar */
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .landscape-wrapper::-webkit-scrollbar { display: none; }
-
-        .landscape-item {
-            flex: 0 0 80vw;
-            max-width: 1200px;
-            height: 70vh;
-            margin: 0 5vw;
-            scroll-snap-align: center;
-            position: relative;
-            border-radius: 6px;
-            overflow: hidden;
-            transition: transform 0.5s ease;
-        }
-        .landscape-item img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 1s ease;
-        }
-        .landscape-item:hover img { transform: scale(1.02); }
-
-        /* 4. Experimental: Chaos Grid */
+        /* 5. Experimental: Chaos Grid (Maintained) */
         .exp-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -323,32 +349,14 @@
         .back-btn.visible { opacity: 1; visibility: visible; }
         .back-btn:hover { background: var(--fg); color: var(--bg); }
 
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--muted);
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
-        .scroll-line {
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, var(--muted), transparent);
-        }
-
         /* Responsive */
+        @media (max-width: 1024px) {
+            .nature-masonry { column-count: 2; }
+        }
         @media (max-width: 768px) {
             .nav-links { gap: 1rem; }
             .urban-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 0 0.5rem 2rem; }
-            .landscape-item { flex: 0 0 90vw; height: 50vh; margin: 0 5vw; }
+            .nature-masonry { column-count: 1; padding: 0 1rem 2rem; }
             .exp-grid { padding: 2rem; gap: 2rem; }
         }
     </style>
@@ -358,13 +366,15 @@
     <div class="noise-overlay"></div>
 
     <!-- Navigation -->
+    <!-- Order Updated: Urban, Nature, Landscape, Exp, Portrait -->
     <nav class="nav-container">
         <a href="#" onclick="navigateTo('home')" class="font-display text-xl tracking-wide" style="font-weight: 400; text-decoration: none; color: var(--fg);">Portfolio</a>
         <div class="nav-links">
             <a href="#" onclick="navigateTo('urban')" class="nav-link" data-view="urban">Urban</a>
-            <a href="#" onclick="navigateTo('portrait')" class="nav-link" data-view="portrait">Portrait</a>
+            <a href="#" onclick="navigateTo('nature')" class="nav-link" data-view="nature">Nature</a>
             <a href="#" onclick="navigateTo('landscape')" class="nav-link" data-view="landscape">Landscape</a>
             <a href="#" onclick="navigateTo('experimental')" class="nav-link" data-view="experimental">Exp</a>
+            <a href="#" onclick="navigateTo('portrait')" class="nav-link" data-view="portrait">Portrait</a>
         </div>
     </nav>
 
@@ -389,8 +399,8 @@
 
             <div class="floating-layer" id="floatingLayer"></div>
 
-            <div class="scroll-indicator">
-                <span>Scroll</span>
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20">
+                <span class="text-[10px] uppercase tracking-[0.3em] text-[var(--muted)]">Scroll</span>
                 <div class="scroll-line"></div>
             </div>
         </div>
@@ -403,18 +413,17 @@
                     <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Urban</h3>
                     <p class="text-[var(--muted)] text-sm mt-2">Architecture & Streets</p>
                 </div>
-                <div onclick="navigateTo('portrait')" class="cursor-pointer group">
-                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Portrait</h3>
-                    <p class="text-[var(--muted)] text-sm mt-2">People & Pets</p>
+                <div onclick="navigateTo('nature')" class="cursor-pointer group">
+                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Nature</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">Organic & Wild</p>
                 </div>
                 <div onclick="navigateTo('landscape')" class="cursor-pointer group">
                     <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Landscape</h3>
-                    <p class="text-[var(--muted)] text-sm mt-2">Nature & Places</p>
+                    <p class="text-[var(--muted)] text-sm mt-2">Horizons & Vistas</p>
                 </div>
-                <!-- ADDED: Experimental Link in main content -->
-                <div onclick="navigateTo('experimental')" class="cursor-pointer group">
-                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Experimental</h3>
-                    <p class="text-[var(--muted)] text-sm mt-2">Chaos & Art</p>
+                <div onclick="navigateTo('portrait')" class="cursor-pointer group">
+                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Portrait</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">People & Pets</p>
                 </div>
             </div>
         </div>
@@ -430,23 +439,33 @@
         <div class="urban-grid" id="urbanGrid"></div>
     </section>
 
-    <!-- PORTRAIT VIEW -->
-    <section id="view-portrait" class="view-section">
-        <div class="portrait-container" id="portraitContainer"></div>
+    <!-- NATURE VIEW (New) -->
+    <section id="view-nature" class="view-section">
+        <div class="page-header">
+            <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Category</p>
+            <h1 class="font-display page-title">Nature</h1>
+            <p class="page-subtitle">Finding stillness in the organic world.</p>
+        </div>
+        <div class="nature-masonry" id="natureGrid"></div>
     </section>
 
-    <!-- LANDSCAPE VIEW -->
+    <!-- LANDSCAPE VIEW (New Layout) -->
     <section id="view-landscape" class="view-section">
-        <div class="page-header" style="position: absolute; width: 100%; z-index: 10; pointer-events: none;">
+        <div class="page-header">
             <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Category</p>
             <h1 class="font-display page-title">Landscape</h1>
         </div>
-        <div class="landscape-wrapper" id="landscapeWrapper"></div>
+        <div class="landscape-container" id="landscapeContainer"></div>
     </section>
 
     <!-- EXPERIMENTAL VIEW -->
     <section id="view-experimental" class="view-section">
         <div class="exp-grid" id="expGrid"></div>
+    </section>
+
+    <!-- PORTRAIT VIEW -->
+    <section id="view-portrait" class="view-section">
+        <div class="portrait-container" id="portraitContainer"></div>
     </section>
 
     <!-- Minimal Footer -->
@@ -455,14 +474,14 @@
     </footer>
 
     <script>
-        // === DATA ===
+        // === UPDATED DATA ===
         const siteData = {
             floating: [
                 { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', x: '8%', y: '15%', w: 140, h: 200, rotate: -8, depth: 3 },
                 { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', x: '72%', y: '20%', w: 110, h: 110, rotate: 10, depth: 2 },
                 { src: 'https://live.staticflickr.com/65535/55157135330_cda3526096_b.jpg', x: '18%', y: '58%', w: 100, h: 130, rotate: 5, depth: 2.5 },
                 { src: 'https://live.staticflickr.com/65535/55155867012_8cc0bf1607_b.jpg', x: '62%', y: '65%', w: 120, h: 80, rotate: -4, depth: 1.5 },
-                { src: 'https://live.staticflickr.com/65535/55156995094_fd711e2aa3_b.jpg', x: '42%', y: '30%', w: 90, h: 120, rotate: 12, depth: 2 },
+                { src: 'https://live.staticflickr.com/65535/55167058328_02885ec837_b.jpg', x: '42%', y: '30%', w: 90, h: 120, rotate: 12, depth: 2 },
                 { src: 'https://live.staticflickr.com/65535/55156758501_a6b7f87721_b.jpg', x: '80%', y: '75%', w: 80, h: 100, rotate: -6, depth: 1 },
             ],
             urban: [
@@ -470,22 +489,36 @@
                 { src: 'https://live.staticflickr.com/65535/55157003329_107449d282_b.jpg', title: 'Downtown Chongqing', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55156922828_c9809cac24_b.jpg', title: 'Mall Architecture', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Tech Hub', size: 'small' },
+				{ src: 'https://live.staticflickr.com/65535/55167283915_5e42522c49_b.jpg', title: 'Osborne Village', size: 'large' },
+
+            ],
+            // Added nature array manually using landscape data as placeholders
+            nature: [
+                { src: 'https://live.staticflickr.com/65535/55167147719_4d1ec4e240_b.jpg', title: 'The Leaf #1' },
+                { src: 'https://live.staticflickr.com/65535/55167058328_02885ec837_b.jpg', title: 'The Leaf #2' },
+                { src: 'https://live.staticflickr.com/65535/55167058323_2ed3d30c57_b.jpg', title: 'The Leaf #3' },
+                { src: 'https://live.staticflickr.com/65535/55167147774_37a07b4b37_b.jpg', title: 'Spindle' },
+				{ src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', title: 'Qingchengshan' },
+				
+            ],
+            landscape: [
+                { src: 'https://live.staticflickr.com/65535/55157552599_60ff8894e6_b.jpg', title: 'The Path' },
+                { src: 'https://live.staticflickr.com/65535/55167283910_ea0e65298a_b.jpg', title: 'The Lej, Fall' },
+                { src: 'https://live.staticflickr.com/65535/55167147664_7f5779ebfc_b.jpg', title: 'The Lej, Summer' },
+				{ src: 'https://live.staticflickr.com/65535/55167147629_2222a11a32_b.jpg', title: 'Diagonal' },
+				{ src: 'https://live.staticflickr.com/65535/55155867012_8cc0bf1607_b.jpg', title: 'Mountain Garden' },
+				
+            ],
+            experimental: [
+                { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', title: 'Abstract Form' },
+                { src: 'https://live.staticflickr.com/65535/55156758501_a6b7f87721_b.jpg', title: 'Double Exposure' },
+                { src: 'https://live.staticflickr.com/65535/55166002422_5a98a9f277_b.jpg', title: 'Snow Texture' },
+                { src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Mosaic' },
             ],
             portrait: [
                 { src: 'https://live.staticflickr.com/65535/55155852537_6ff76a7cea_b.jpg', title: 'Feline Grace', sub: 'Studio Work' },
                 { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', title: 'Contemplation', sub: 'Street Portrait' },
                 { src: 'https://live.staticflickr.com/65535/55156995094_fd711e2aa3_b.jpg', title: 'Shadows', sub: 'Natural Light' },
-            ],
-            landscape: [
-                { src: 'https://live.staticflickr.com/65535/55157552599_60ff8894e6_b.jpg', title: 'The Path' },
-                { src: 'https://live.staticflickr.com/65535/55157135330_cda3526096_b.jpg', title: 'Horizons' },
-                { src: 'https://live.staticflickr.com/65535/55155867012_8cc0bf1607_b.jpg', title: 'Serenity' },
-            ],
-            experimental: [
-                { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', title: 'Abstract Form' },
-                { src: 'https://live.staticflickr.com/65535/55156758501_a6b7f87721_b.jpg', title: 'Double Exposure' },
-                { src: 'https://live.staticflickr.com/65535/55156922828_c9809cac24_b.jpg', title: 'Glitch' },
-                { src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Mosaic' },
             ]
         };
 
@@ -495,50 +528,29 @@
         const backBtn = document.getElementById('backBtn');
 
         function navigateTo(viewName) {
-            // Hide all views
             views.forEach(v => v.classList.remove('active'));
             navLinks.forEach(l => l.classList.remove('active'));
 
-            // Show target view
             const targetView = document.getElementById(`view-${viewName}`);
             if(targetView) {
                 targetView.classList.add('active');
                 
-                // Handle Nav state
                 const correspondingLink = document.querySelector(`.nav-link[data-view="${viewName}"]`);
                 if(correspondingLink) correspondingLink.classList.add('active');
                 
-                // Show back button if not home
                 if(viewName !== 'home') {
                     backBtn.classList.add('visible');
+                    window.scrollTo(0, 0); // Reset scroll for new pages
                 } else {
                     backBtn.classList.remove('visible');
                 }
-
-                // FIX: Manage Body Scroll strictly
-                if(viewName === 'landscape') {
-                    // Prevent vertical scroll on body to allow horizontal scroll capture
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    // Restore vertical scroll for other pages
-                    document.body.style.overflow = 'auto';
-                }
-                
-                // Special scroll resets
-                if(viewName === 'portrait') {
-                    document.getElementById('portraitContainer').scrollTop = 0;
-                } 
-                if(viewName === 'landscape') {
-                    document.getElementById('landscapeWrapper').scrollLeft = 0;
-                }
             }
-            
             return false;
         }
 
         // === GENERATION FUNCTIONS ===
 
-        // 1. Home Floating Layer
+        // 1. Home
         function initHome() {
             const layer = document.getElementById('floatingLayer');
             layer.innerHTML = '';
@@ -573,7 +585,7 @@
             animate();
         }
 
-        // 2. Urban Grid
+        // 2. Urban
         function initUrban() {
             const grid = document.getElementById('urbanGrid');
             grid.innerHTML = '';
@@ -593,7 +605,52 @@
             });
         }
 
-        // 3. Portrait Slider
+        // 3. Nature (Masonry)
+        function initNature() {
+            const grid = document.getElementById('natureGrid');
+            grid.innerHTML = '';
+            
+            siteData.nature.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'nature-item';
+                item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
+                grid.appendChild(item);
+            });
+        }
+
+        // 4. Landscape (Polaroid)
+        function initLandscape() {
+            const container = document.getElementById('landscapeContainer');
+            container.innerHTML = '';
+            
+            siteData.landscape.forEach((p, i) => {
+                const card = document.createElement('figure');
+                // Alternate rotation
+                const rot = i % 2 === 0 ? '-2deg' : '2deg';
+                card.className = 'polaroid-card';
+                card.style.setProperty('--r', rot);
+                card.innerHTML = `
+                    <img src="${p.src}" alt="${p.title}">
+                    <figcaption>${p.title}</figcaption>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 5. Experimental
+        function initExperimental() {
+            const grid = document.getElementById('expGrid');
+            grid.innerHTML = '';
+            
+            siteData.experimental.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'exp-item';
+                item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
+                grid.appendChild(item);
+            });
+        }
+
+        // 6. Portrait
         function initPortrait() {
             const container = document.getElementById('portraitContainer');
             container.innerHTML = '';
@@ -614,51 +671,14 @@
             });
         }
 
-        // 4. Landscape Scroll
-        function initLandscape() {
-            const wrapper = document.getElementById('landscapeWrapper');
-            wrapper.innerHTML = '';
-            
-            siteData.landscape.forEach(p => {
-                const item = document.createElement('div');
-                item.className = 'landscape-item';
-                item.innerHTML = `
-                    <img src="${p.src}" alt="${p.title}">
-                    <div class="absolute bottom-8 left-8 font-display text-4xl mix-blend-difference text-white">${p.title}</div>
-                `;
-                wrapper.appendChild(item);
-            });
-
-            // FIX: Robust Horizontal Scroll Handler
-            wrapper.addEventListener('wheel', (e) => {
-                // Check if we are actually scrolling vertically
-                if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-                    e.preventDefault(); // Stop vertical scroll
-                    wrapper.scrollLeft += e.deltaY; // Transfer to horizontal
-                }
-            }, { passive: false }); // Must be non-passive to prevent default
-        }
-
-        // 5. Experimental
-        function initExperimental() {
-            const grid = document.getElementById('expGrid');
-            grid.innerHTML = '';
-            
-            siteData.experimental.forEach(p => {
-                const item = document.createElement('div');
-                item.className = 'exp-item';
-                item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
-                grid.appendChild(item);
-            });
-        }
-
         // Initialize All
         document.addEventListener('DOMContentLoaded', () => {
             initHome();
             initUrban();
-            initPortrait();
+            initNature();
             initLandscape();
             initExperimental();
+            initPortrait();
         });
     </script>
 </body>

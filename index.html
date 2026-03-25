@@ -216,70 +216,15 @@
             filter: brightness(1.1);
         }
 
-        /* 3. Landscape: Polaroid Stack (Dynamic Sizes) */
-        .landscape-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-            padding: 2rem 2rem 8rem;
-            background: linear-gradient(to bottom, #050505, #0a0a0a);
-        }
-        
-        .polaroid-card {
-            background: #f4f4f0;
-            padding: 1rem 1rem 3rem 1rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: 90%; /* Fallback */
-            
-            /* Dynamic width classes added via JS */
-            max-width: 450px; /* Default Square/Small */
-
-            transform: rotate(var(--r));
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, opacity 0.5s;
-            opacity: 0; /* Start hidden until loaded */
-        }
-
-        /* Dynamic Width Classes */
-        .polaroid-card.orientation-wide {
-            max-width: 650px; /* Wider for landscape images */
-        }
-        .polaroid-card.orientation-tall {
-            max-width: 320px; /* Narrower for portrait images */
-        }
-
-        .polaroid-card.loaded {
-            opacity: 1;
-        }
-
-        .polaroid-card img {
-            width: 100%;
-            height: auto;
-            filter: grayscale(20%) contrast(110%); /* Analog feel */
-        }
-        .polaroid-card figcaption {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            color: #333;
-            font-style: italic;
-        }
-        .polaroid-card:hover {
-            transform: rotate(0deg) scale(1.02);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-            z-index: 10;
-            position: relative;
-        }
-
-        /* 4. Portrait: Vertical Slider */
-        .portrait-container {
+        /* 3. Landscape: Vertical Slider */
+        .slider-container {
             height: 100vh;
             overflow-y: auto;
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
+            background: #050505;
         }
-        .portrait-slide {
+        .slider-slide {
             height: 100vh;
             scroll-snap-align: start;
             display: flex;
@@ -287,20 +232,20 @@
             justify-content: center;
             position: relative;
         }
-        .portrait-img-container {
-            height: 70vh;
-            max-width: 900px;
+        .slider-img-container {
+            height: 75vh;
+            max-width: 1100px; 
             width: 90%;
             position: relative;
             overflow: hidden;
             border-radius: 4px;
             box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8);
         }
-        .portrait-img-container img {
+        .slider-img-container img {
             width: 100%; height: 100%;
             object-fit: cover;
         }
-        .portrait-meta {
+        .slider-meta {
             position: absolute;
             bottom: -3rem;
             left: 0;
@@ -308,38 +253,78 @@
             transform: translateY(10px);
             transition: all 0.5s ease 0.3s;
         }
-        .portrait-slide:hover .portrait-meta {
+        .slider-slide:hover .slider-meta {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* 5. Experimental: Chaos Grid */
-        .exp-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 4rem;
-            padding: 4rem;
-            padding-top: 10rem;
+        /* 4. Geometric: Quilt / Explode Grid */
+        .geo-wrapper {
+            /* Padding creates the "safe zone" to trigger the quilt (default) state */
+            padding: 5rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .exp-item {
+
+        .geo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+        }
+
+        .geo-item {
+            width: 280px; /* Fixed width for consistency in quilt */
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
+            
+            /* --r is set via JS for random rotation */
+            --r: 0deg;
+
+            /* Default State (Quilt) */
+            margin: -30px; /* Heavy overlap */
+            transform: rotate(0deg) scale(0.9);
+            z-index: 1;
+            opacity: 0.8;
         }
-        .exp-item:nth-child(odd) { transform: rotate(-2deg) translateY(20px); }
-        .exp-item:nth-child(even) { transform: rotate(2deg); }
-        .exp-item:nth-child(3n) { transform: rotate(-1deg) scale(1.05); }
-        
-        .exp-item:hover {
-            z-index: 10;
-            transform: rotate(0deg) scale(1.1) !important;
-            box-shadow: 0 40px 70px -20px rgba(0,0,0,0.9);
-        }
-        .exp-item img { 
-            width: 100%; 
-            height: auto; 
-            display: block; 
+
+        .geo-item img {
+            width: 100%;
+            height: auto;
+            display: block;
             border-radius: 4px;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            background: var(--card);
+        }
+
+        /* Hover State (Explode) */
+        /* Triggered when hovering over the wrapper, but visual result is space */
+        .geo-wrapper:hover .geo-item {
+            margin: 25px; /* Spacing */
+            transform: rotate(var(--r)) scale(1);
+            z-index: 10;
+            opacity: 1;
+        }
+
+        /* Mobile Override - Static Quilt */
+        @media (max-width: 768px) {
+            .geo-wrapper {
+                padding: 2rem;
+            }
+            .geo-item {
+                margin: -15px; /* Less aggressive overlap on small screens */
+                transform: rotate(0deg) scale(0.9);
+                width: 200px;
+            }
+            /* Disable hover effects on mobile */
+            .geo-wrapper:hover .geo-item {
+                margin: -15px;
+                transform: rotate(0deg) scale(0.9);
+                opacity: 0.8;
+            }
         }
 
         /* Back Button */
@@ -369,16 +354,12 @@
         /* Responsive */
         @media (max-width: 1024px) {
             .nature-masonry { column-count: 2; }
-            /* Adjust polaroid sizes for mobile */
-            .polaroid-card { max-width: 85%; }
-            .polaroid-card.orientation-wide { max-width: 90%; }
-            .polaroid-card.orientation-tall { max-width: 70%; }
         }
         @media (max-width: 768px) {
             .nav-links { gap: 1rem; }
             .urban-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 0 0.5rem 2rem; }
             .nature-masonry { column-count: 1; padding: 0 1rem 2rem; }
-            .exp-grid { padding: 2rem; gap: 2rem; }
+            .slider-img-container { height: 50vh; }
         }
     </style>
 </head>
@@ -393,8 +374,7 @@
             <a href="#" onclick="navigateTo('urban')" class="nav-link" data-view="urban">Urban</a>
             <a href="#" onclick="navigateTo('nature')" class="nav-link" data-view="nature">Nature</a>
             <a href="#" onclick="navigateTo('landscape')" class="nav-link" data-view="landscape">Landscape</a>
-            <a href="#" onclick="navigateTo('experimental')" class="nav-link" data-view="experimental">Exp</a>
-            <a href="#" onclick="navigateTo('portrait')" class="nav-link" data-view="portrait">Portrait</a>
+            <a href="#" onclick="navigateTo('geometric')" class="nav-link" data-view="geometric">Geometric</a>
         </div>
     </nav>
 
@@ -441,9 +421,9 @@
                     <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Landscape</h3>
                     <p class="text-[var(--muted)] text-sm mt-2">Horizons & Vistas</p>
                 </div>
-                <div onclick="navigateTo('portrait')" class="cursor-pointer group">
-                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Portrait</h3>
-                    <p class="text-[var(--muted)] text-sm mt-2">People & Pets</p>
+                <div onclick="navigateTo('geometric')" class="cursor-pointer group">
+                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Geometric</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">Abstract & Shapes</p>
                 </div>
             </div>
         </div>
@@ -469,23 +449,16 @@
         <div class="nature-masonry" id="natureGrid"></div>
     </section>
 
-    <!-- LANDSCAPE VIEW -->
+    <!-- LANDSCAPE VIEW (Vertical Slider) -->
     <section id="view-landscape" class="view-section">
-        <div class="page-header">
-            <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Category</p>
-            <h1 class="font-display page-title">Landscape</h1>
+        <div class="slider-container" id="landscapeContainer"></div>
+    </section>
+
+    <!-- GEOMETRIC VIEW (Quilt/Explode) -->
+    <section id="view-geometric" class="view-section">
+        <div class="geo-wrapper">
+            <div class="geo-grid" id="geoGrid"></div>
         </div>
-        <div class="landscape-container" id="landscapeContainer"></div>
-    </section>
-
-    <!-- EXPERIMENTAL VIEW -->
-    <section id="view-experimental" class="view-section">
-        <div class="exp-grid" id="expGrid"></div>
-    </section>
-
-    <!-- PORTRAIT VIEW -->
-    <section id="view-portrait" class="view-section">
-        <div class="portrait-container" id="portraitContainer"></div>
     </section>
 
     <!-- Minimal Footer -->
@@ -494,7 +467,7 @@
     </footer>
 
     <script>
-        // === UPDATED DATA ===
+        // === DATA ===
         const siteData = {
             floating: [
                 { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', x: '8%', y: '15%', w: 140, h: 200, rotate: -8, depth: 3 },
@@ -506,6 +479,11 @@
             ],
             urban: [
                 { src: 'https://live.staticflickr.com/65535/55157003279_d8b9ce545e_b.jpg', title: 'Shenzhen North', size: 'large' },
+                { src: 'https://live.staticflickr.com/65535/55157003329_107449d282_b.jpg', title: 'Downtown Chongqing', size: 'medium' },
+                { src: 'https://live.staticflickr.com/65535/55156922828_c9809cac24_b.jpg', title: 'Mall Architecture', size: 'medium' },
+                { src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Tech Hub', size: 'small' },
+                { src: 'https://live.staticflickr.com/65535/55167283915_5e42522c49_b.jpg', title: 'Osborne Village', size: 'large' },
+				{ src: 'https://live.staticflickr.com/65535/55156922973_557dc42fbb_b.jpg', title: 'Dameisha', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55157003329_107449d282_b.jpg', title: 'Downtown Chongqing', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55156922828_c9809cac24_b.jpg', title: 'Mall Architecture', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Tech Hub', size: 'small' },
@@ -525,16 +503,11 @@
                 { src: 'https://live.staticflickr.com/65535/55167147629_2222a11a32_b.jpg', title: 'Diagonal' },
                 { src: 'https://live.staticflickr.com/65535/55155867012_8cc0bf1607_b.jpg', title: 'Mountain Garden' },
             ],
-            experimental: [
+            experimental: [ // Kept key name to match your data, UI is "Geometric"
                 { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', title: 'Abstract Form' },
                 { src: 'https://live.staticflickr.com/65535/55156758501_a6b7f87721_b.jpg', title: 'Double Exposure' },
                 { src: 'https://live.staticflickr.com/65535/55166002422_5a98a9f277_b.jpg', title: 'Snow Texture' },
                 { src: 'https://live.staticflickr.com/65535/55157135330_cda3526096_b.jpg', title: 'Warming Hut' },
-            ],
-            portrait: [
-                { src: 'https://live.staticflickr.com/65535/55155852537_6ff76a7cea_b.jpg', title: 'Feline Grace', sub: 'Studio Work' },
-                { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', title: 'Contemplation', sub: 'Street Portrait' },
-                { src: 'https://live.staticflickr.com/65535/55156995094_fd711e2aa3_b.jpg', title: 'Shadows', sub: 'Natural Light' },
             ]
         };
 
@@ -556,7 +529,10 @@
                 
                 if(viewName !== 'home') {
                     backBtn.classList.add('visible');
-                    window.scrollTo(0, 0);
+                    // Reset scroll for sliders
+                    const container = targetView.querySelector('.slider-container');
+                    if(container) container.scrollTop = 0;
+                    else window.scrollTo(0, 0);
                 } else {
                     backBtn.classList.remove('visible');
                 }
@@ -621,7 +597,7 @@
             });
         }
 
-        // 3. Nature (Masonry)
+        // 3. Nature
         function initNature() {
             const grid = document.getElementById('natureGrid');
             grid.innerHTML = '';
@@ -634,88 +610,41 @@
             });
         }
 
-        // 4. Landscape (Dynamic Polaroid)
+        // 4. Landscape
         function initLandscape() {
             const container = document.getElementById('landscapeContainer');
             container.innerHTML = '';
             
-            siteData.landscape.forEach((p, i) => {
-                const card = document.createElement('figure');
-                // Alternate rotation
-                const rot = i % 2 === 0 ? '-2deg' : '2deg';
-                card.className = 'polaroid-card';
-                card.style.setProperty('--r', rot);
-                
-                const img = document.createElement('img');
-                img.src = p.src;
-                
-                // Create caption
-                const caption = document.createElement('figcaption');
-                caption.textContent = p.title;
-                
-                card.appendChild(img);
-                card.appendChild(caption);
-                container.appendChild(card);
-
-                // ** Detect Aspect Ratio for Dynamic Sizing **
-                // We use the onload event to ensure we have dimensions
-                img.onload = function() {
-                    const w = this.naturalWidth;
-                    const h = this.naturalHeight;
-                    
-                    // Tolerance for "squares" to avoid jitter
-                    const ratio = w / h;
-
-                    if (ratio > 1.2) {
-                        card.classList.add('orientation-wide');
-                    } else if (ratio < 0.8) {
-                        card.classList.add('orientation-tall');
-                    }
-                    
-                    // Fade in once size is determined
-                    setTimeout(() => {
-                        card.classList.add('loaded');
-                    }, 50);
-                };
-
-                // Handle cached images (sometimes onload doesn't fire if cached)
-                if(img.complete) {
-                    img.onload();
-                }
+            siteData.landscape.forEach(p => {
+                const slide = document.createElement('div');
+                slide.className = 'slider-slide';
+                slide.innerHTML = `
+                    <div class="slider-img-container">
+                        <img src="${p.src}" alt="${p.title}">
+                    </div>
+                    <div class="slider-meta">
+                        <h3 class="font-display text-3xl">${p.title}</h3>
+                    </div>
+                `;
+                container.appendChild(slide);
             });
         }
 
-        // 5. Experimental
-        function initExperimental() {
-            const grid = document.getElementById('expGrid');
+        // 5. Geometric (Quilt)
+        function initGeometric() {
+            const grid = document.getElementById('geoGrid');
             grid.innerHTML = '';
             
             siteData.experimental.forEach(p => {
                 const item = document.createElement('div');
-                item.className = 'exp-item';
+                item.className = 'geo-item';
+                
+                // Generate random rotation between -15 and 15 degrees for the "explode" state
+                const rotation = (Math.random() * 30 - 15).toFixed(2);
+                item.style.setProperty('--r', `${rotation}deg`);
+                
                 item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
                 grid.appendChild(item);
-            });
-        }
-
-        // 6. Portrait
-        function initPortrait() {
-            const container = document.getElementById('portraitContainer');
-            container.innerHTML = '';
-            
-            siteData.portrait.forEach(p => {
-                const slide = document.createElement('div');
-                slide.className = 'portrait-slide';
-                slide.innerHTML = `
-                    <div class="portrait-img-container">
-                        <img src="${p.src}" alt="${p.title}">
-                    </div>
-                    <div class="portrait-meta">
-                        <h3 class="font-display text-3xl">${p.title}</h3>
-                        <p class="text-xs text-[var(--muted)] uppercase tracking-widest">${p.sub}</p>
-                    </div>
-                `;
-                container.appendChild(slide);
             });
         }
 
@@ -725,8 +654,7 @@
             initUrban();
             initNature();
             initLandscape();
-            initExperimental();
-            initPortrait();
+            initGeometric();
         });
     </script>
 </body>

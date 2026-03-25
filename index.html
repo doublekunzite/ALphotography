@@ -166,7 +166,7 @@
 
         /* === LAYOUTS === */
 
-        /* 1. Urban: Bento Grid */
+        /* 1. Urban: Bento Grid - Desktop Defaults */
         .urban-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
@@ -188,6 +188,11 @@
             transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .urban-item:hover img { transform: scale(1.05); }
+
+        /* Size Modifiers - Desktop */
+        .urban-item[data-size="large"] { grid-column: span 6; grid-row: span 2; aspect-ratio: 2/1; }
+        .urban-item[data-size="medium"] { grid-column: span 4; grid-row: span 2; aspect-ratio: 1/1.2; }
+        .urban-item[data-size="small"] { grid-column: span 2; grid-row: span 1; aspect-ratio: 1/1; }
 
         /* 2. Nature: Masonry Layout */
         .nature-masonry {
@@ -260,7 +265,6 @@
 
         /* 4. Geometric: Quilt / Explode Grid */
         .geo-wrapper {
-            /* Padding creates the "safe zone" to trigger the quilt (default) state */
             padding: 5rem;
             min-height: 100vh;
             display: flex;
@@ -277,15 +281,11 @@
         }
 
         .geo-item {
-            width: 280px; /* Fixed width for consistency in quilt */
+            width: 280px;
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
-            
-            /* --r is set via JS for random rotation */
             --r: 0deg;
-
-            /* Default State (Quilt) */
-            margin: -30px; /* Heavy overlap */
+            margin: -30px; 
             transform: rotate(0deg) scale(0.9);
             z-index: 1;
             opacity: 0.8;
@@ -300,31 +300,11 @@
             background: var(--card);
         }
 
-        /* Hover State (Explode) */
-        /* Triggered when hovering over the wrapper, but visual result is space */
         .geo-wrapper:hover .geo-item {
-            margin: 25px; /* Spacing */
+            margin: 25px;
             transform: rotate(var(--r)) scale(1);
             z-index: 10;
             opacity: 1;
-        }
-
-        /* Mobile Override - Static Quilt */
-        @media (max-width: 768px) {
-            .geo-wrapper {
-                padding: 2rem;
-            }
-            .geo-item {
-                margin: -15px; /* Less aggressive overlap on small screens */
-                transform: rotate(0deg) scale(0.9);
-                width: 200px;
-            }
-            /* Disable hover effects on mobile */
-            .geo-wrapper:hover .geo-item {
-                margin: -15px;
-                transform: rotate(0deg) scale(0.9);
-                opacity: 0.8;
-            }
         }
 
         /* Back Button */
@@ -351,15 +331,51 @@
         .back-btn.visible { opacity: 1; visibility: visible; }
         .back-btn:hover { background: var(--fg); color: var(--bg); }
 
-        /* Responsive */
+        /* === RESPONSIVE === */
         @media (max-width: 1024px) {
             .nature-masonry { column-count: 2; }
         }
+
         @media (max-width: 768px) {
             .nav-links { gap: 1rem; }
-            .urban-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 0 0.5rem 2rem; }
+            
+            /* Urban Grid Mobile Fix */
+            .urban-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 4px; 
+                padding: 0 0.5rem 2rem; 
+            }
+            /* Reset spans and rows for mobile flow */
+            .urban-item {
+                grid-column: span 2 !important; /* Default to full width */
+                grid-row: span 1 !important;
+                aspect-ratio: 3/2 !important; /* Landscape default */
+            }
+            /* Make small items half-width squares */
+            .urban-item[data-size="small"] {
+                grid-column: span 1 !important;
+                aspect-ratio: 1/1 !important;
+            }
+            /* Make large items taller squares */
+            .urban-item[data-size="large"] {
+                aspect-ratio: 4/3 !important;
+            }
+            
             .nature-masonry { column-count: 1; padding: 0 1rem 2rem; }
             .slider-img-container { height: 50vh; }
+            
+            /* Geometric Mobile Static */
+            .geo-wrapper { padding: 2rem; }
+            .geo-item {
+                margin: -15px; 
+                transform: rotate(0deg) scale(0.9);
+                width: 200px;
+            }
+            .geo-wrapper:hover .geo-item {
+                margin: -15px;
+                transform: rotate(0deg) scale(0.9);
+                opacity: 0.8;
+            }
         }
     </style>
 </head>
@@ -444,17 +460,17 @@
         <div class="page-header">
             <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Category</p>
             <h1 class="font-display page-title">Nature</h1>
-            <p class="page-subtitle">A study of plant life.</p>
+            <p class="page-subtitle">Finding stillness in the organic world.</p>
         </div>
         <div class="nature-masonry" id="natureGrid"></div>
     </section>
 
-    <!-- LANDSCAPE VIEW (Vertical Slider) -->
+    <!-- LANDSCAPE VIEW -->
     <section id="view-landscape" class="view-section">
         <div class="slider-container" id="landscapeContainer"></div>
     </section>
 
-    <!-- GEOMETRIC VIEW (Quilt/Explode) -->
+    <!-- GEOMETRIC VIEW -->
     <section id="view-geometric" class="view-section">
         <div class="geo-wrapper">
             <div class="geo-grid" id="geoGrid"></div>
@@ -547,7 +563,6 @@
                 
                 if(viewName !== 'home') {
                     backBtn.classList.add('visible');
-                    // Reset scroll for sliders
                     const container = targetView.querySelector('.slider-container');
                     if(container) container.scrollTop = 0;
                     else window.scrollTo(0, 0);
@@ -599,17 +614,12 @@
         function initUrban() {
             const grid = document.getElementById('urbanGrid');
             grid.innerHTML = '';
-            const sizes = {
-                large: 'grid-column: span 6; grid-row: span 2; aspect-ratio: 2/1;',
-                medium: 'grid-column: span 4; grid-row: span 2; aspect-ratio: 1/1.2;',
-                small: 'grid-column: span 2; grid-row: span 1; aspect-ratio: 1/1;',
-                wide: 'grid-column: span 8; grid-row: span 1; aspect-ratio: 3/1;'
-            };
-
+            
             siteData.urban.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'urban-item';
-                item.style.cssText = sizes[p.size] || sizes.medium;
+                // Use data-size attribute for CSS targeting
+                item.dataset.size = p.size;
                 item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
                 grid.appendChild(item);
             });
@@ -648,7 +658,7 @@
             });
         }
 
-        // 5. Geometric (Quilt)
+        // 5. Geometric
         function initGeometric() {
             const grid = document.getElementById('geoGrid');
             grid.innerHTML = '';
@@ -656,11 +666,8 @@
             siteData.experimental.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'geo-item';
-                
-                // Generate random rotation between -15 and 15 degrees for the "explode" state
                 const rotation = (Math.random() * 30 - 15).toFixed(2);
                 item.style.setProperty('--r', `${rotation}deg`);
-                
                 item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
                 grid.appendChild(item);
             });

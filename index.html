@@ -263,44 +263,61 @@
             transform: translateY(0);
         }
 
-        /* 4. Geometric: Quilt / Explode Grid */
+        /* 4. Geometric: Quilt / Grid (Updated) */
         .geo-wrapper {
-            padding: 5rem;
+            padding: 4rem;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden; /* contain overlaps */
         }
         .geo-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            max-width: 1200px;
+            display: grid;
+            /* Strict 5 columns */
+            grid-template-columns: repeat(5, 1fr);
+            width: 100%;
+            max-width: 1400px;
         }
+
         .geo-item {
-            width: 280px;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            background: var(--card);
             cursor: pointer;
-            --r: 0deg;
-            margin: -30px; 
-            transform: rotate(0deg) scale(0.9);
+            
+            /* Transition for smooth movement */
+            transition: margin 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            
+            /* Quilt State (Default) - Slight Overlap */
+            margin: -10px;
             z-index: 1;
-            opacity: 0.8;
         }
+
         .geo-item img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
             display: block;
             border-radius: 4px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             background: var(--card);
+            vertical-align: middle;
         }
-        .geo-wrapper:hover .geo-item {
-            margin: 25px;
-            transform: rotate(var(--r)) scale(1);
+
+        /* Grid State (Spread) */
+        /* Applied on hover (desktop) or via JS class (mobile scroll) */
+        .geo-grid.is-spread .geo-item {
+            margin: 5px; /* Spacing */
             z-index: 10;
-            opacity: 1;
+        }
+
+        /* Desktop Hover Interaction */
+        @media (hover: hover) and (pointer: fine) {
+            .geo-grid:hover .geo-item {
+                margin: 5px;
+                z-index: 10;
+            }
         }
 
         /* 5. Design Page Layouts */
@@ -479,6 +496,8 @@
         /* === RESPONSIVE === */
         @media (max-width: 1024px) {
             .nature-masonry { column-count: 2; }
+            /* Adjust grid for tablets */
+            .geo-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
         @media (max-width: 768px) {
@@ -493,15 +512,23 @@
             .nature-masonry { column-count: 1; padding: 0 1rem 2rem; }
             .slider-img-container { height: 50vh; }
             
+            /* Geometric Mobile - 3 Cols, Scroll Trigger */
             .geo-wrapper { padding: 2rem; }
-            .geo-item { margin: -15px; transform: rotate(0deg) scale(0.9); width: 200px; }
-            .geo-wrapper:hover .geo-item { margin: -15px; transform: rotate(0deg) scale(0.9); opacity: 0.8; }
+            .geo-grid { grid-template-columns: repeat(3, 1fr); }
+            
+            /* Mobile default is Quilt (overlapping) */
+            .geo-item { margin: -10px; }
+            
+            /* Class added by JS on scroll */
+            .geo-grid.is-spread .geo-item {
+                margin: 5px;
+            }
 
             /* Move back button further down on mobile if needed */
             .back-btn { top: 6rem; }
         }
     </style>
-	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" type="image/svg+xml">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" type="image/svg+xml">
 
 </head>
 <body>
@@ -707,7 +734,7 @@
                 { src: 'https://live.staticflickr.com/65535/55156922828_c9809cac24_b.jpg', title: 'Mall Architecture', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55157312266_d31d4b0f24_b.jpg', title: 'Tech Hub', size: 'small' },
                 { src: 'https://live.staticflickr.com/65535/55167283915_5e42522c49_b.jpg', title: 'Osborne Village', size: 'large' },
-				{ src: 'https://live.staticflickr.com/65535/55156922973_557dc42fbb_b.jpg', title: 'Dameisha', size: 'medium' },
+                { src: 'https://live.staticflickr.com/65535/55156922973_557dc42fbb_b.jpg', title: 'Dameisha', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55167103101_26cf182bab_b.jpg', title: 'Transitway', size: 'small' },
                 { src: 'https://live.staticflickr.com/65535/55167262913_f8465fb0e7_b.jpg', title: 'Capital Airport', size: 'medium' },
                 { src: 'https://live.staticflickr.com/65535/55166203652_44df3e8f6a_b.jpg', title: 'Kilter Board', size: 'small' },
@@ -717,14 +744,14 @@
                 { src: 'https://live.staticflickr.com/65535/55167147719_4d1ec4e240_b.jpg', title: 'The Leaf #1' },
                 { src: 'https://live.staticflickr.com/65535/55167058328_02885ec837_b.jpg', title: 'The Leaf #2' },
                 { src: 'https://live.staticflickr.com/65535/55167058323_2ed3d30c57_b.jpg', title: 'The Leaf #3' },
-				{ src: 'https://live.staticflickr.com/65535/55167392818_f580754663_b.jpg', title: 'The Leaf #4' },
+                { src: 'https://live.staticflickr.com/65535/55167392818_f580754663_b.jpg', title: 'The Leaf #4' },
                 { src: 'https://live.staticflickr.com/65535/55167147774_37a07b4b37_b.jpg', title: 'Spindle' },
                 { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', title: 'Qingchengshan' },
                 { src: 'https://live.staticflickr.com/65535/55167103046_cbd79f9203_b.jpg', title: 'Lily Pads' },
-				{ src: 'https://live.staticflickr.com/65535/55167477874_d1868b3a49_b.jpg', title: 'Reed Canyon' },
-				{ src: 'https://live.staticflickr.com/65535/55167231031_41900ba85e_b.jpg', title: 'Water Texture' },
+                { src: 'https://live.staticflickr.com/65535/55167477874_d1868b3a49_b.jpg', title: 'Reed Canyon' },
+                { src: 'https://live.staticflickr.com/65535/55167231031_41900ba85e_b.jpg', title: 'Water Texture' },
                 { src: 'https://live.staticflickr.com/65535/55166331527_f195e0ccbd_b.jpg', title: 'Tree Roots' },
-				
+                
             ],
             landscape: [
                 { src: 'https://live.staticflickr.com/65535/55157552599_60ff8894e6_b.jpg', title: 'The Path' },
@@ -732,14 +759,14 @@
                 { src: 'https://live.staticflickr.com/65535/55167147664_7f5779ebfc_b.jpg', title: 'The Lej, Summer' },
                 { src: 'https://live.staticflickr.com/65535/55167147629_2222a11a32_b.jpg', title: 'Diagonal' },
                 { src: 'https://live.staticflickr.com/65535/55155867012_8cc0bf1607_b.jpg', title: 'Mountain Garden' },
-				{ src: 'https://live.staticflickr.com/65535/55166203622_4b3e2bbc2d_b.jpg', title: 'Winter Sky' },
-				{ src: 'https://live.staticflickr.com/65535/55167477874_d1868b3a49_b.jpg', title: 'Reed Canyon' },
+                { src: 'https://live.staticflickr.com/65535/55166203622_4b3e2bbc2d_b.jpg', title: 'Winter Sky' },
+                { src: 'https://live.staticflickr.com/65535/55167477874_d1868b3a49_b.jpg', title: 'Reed Canyon' },
                 { src: 'https://live.staticflickr.com/65535/55167477814_5f0e1a7bf5_b.jpg', title: 'Rushing River' },
-				{ src: 'https://live.staticflickr.com/65535/55167231031_41900ba85e_b.jpg', title: 'Water Texture' },
-				
+                { src: 'https://live.staticflickr.com/65535/55167231031_41900ba85e_b.jpg', title: 'Water Texture' },
+                
             ],
-			
-			carousel: [
+            
+            carousel: [
                 { src: 'https://live.staticflickr.com/65535/55167155767_e8ab1ab26c_b.jpg', alt: 'Title Slide' },
                 { src: 'https://live.staticflickr.com/65535/55168307739_ee78e4df84_b.jpg', alt: 'Slide 2' },
                 { src: 'https://live.staticflickr.com/65535/55168307724_2d03fa1b2e_b.jpg', alt: 'Slide 3' },
@@ -747,19 +774,19 @@
                 { src: 'https://live.staticflickr.com/65535/55168221123_d4442ee4d4_b.jpg', alt: 'Slide 5' },
                 { src: 'https://live.staticflickr.com/65535/55168307709_5bcb15a398_b.jpg', alt: 'Slide 6' },
             ],
-			
+            
             experimental: [ // Kept key name to match your data, UI is "Geometric"
                 { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', title: 'Abstract Form' },
                 { src: 'https://live.staticflickr.com/65535/55156758501_a6b7f87721_b.jpg', title: 'Double Exposure' },
                 { src: 'https://live.staticflickr.com/65535/55166002422_5a98a9f277_b.jpg', title: 'Snow Texture' },
                 { src: 'https://live.staticflickr.com/65535/55157135330_cda3526096_b.jpg', title: 'Warming Hut' },
-				{ src: 'https://live.staticflickr.com/65535/55167103056_c81344e4c1_b.jpg', title: 'Vancouver Yellow' },
+                { src: 'https://live.staticflickr.com/65535/55167103056_c81344e4c1_b.jpg', title: 'Vancouver Yellow' },
                 { src: 'https://live.staticflickr.com/65535/55167262898_5a6b144259_b.jpg', title: 'Tire Tracks' },
                 { src: 'https://live.staticflickr.com/65535/55167486610_f50bd80d99_b.jpg', title: 'Concert Hall' },
                 { src: 'https://live.staticflickr.com/65535/55167103046_cbd79f9203_b.jpg', title: 'Lily Pads' },
-				{ src: 'https://live.staticflickr.com/65535/55167230986_d7e53e1a48_b.jpg', title: 'Snowy Sign' },
+                { src: 'https://live.staticflickr.com/65535/55167230986_d7e53e1a48_b.jpg', title: 'Snowy Sign' },
                 { src: 'https://live.staticflickr.com/65535/55167392818_f580754663_b.jpg', title: 'The Leaf #4' },
-				
+                
             ]
         };
 
@@ -902,7 +929,7 @@
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
 
-        // 6. Geometric
+        // 6. Geometric (Updated Logic)
         function initGeometric() {
             const grid = document.getElementById('geoGrid');
             grid.innerHTML = '';
@@ -910,12 +937,34 @@
             siteData.experimental.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'geo-item';
-                const rotation = (Math.random() * 30 - 15).toFixed(2);
-                item.style.setProperty('--r', `${rotation}deg`);
+                // Rotation logic removed
                 item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
                 grid.appendChild(item);
             });
         }
+
+        // Mobile Scroll Interaction for Geometric
+        let scrollTimeout;
+        const geoGrid = document.getElementById('geoGrid');
+        
+        window.addEventListener('scroll', () => {
+            // Only run on mobile
+            if (window.innerWidth < 768) {
+                // Check if geometric view is active to save performance
+                const geoView = document.getElementById('view-geometric');
+                if(geoView && geoView.classList.contains('active')) {
+                    geoGrid.classList.add('is-spread');
+                    
+                    // Clear existing timeout
+                    clearTimeout(scrollTimeout);
+                    
+                    // Set timeout to remove class after scrolling stops
+                    scrollTimeout = setTimeout(() => {
+                        geoGrid.classList.remove('is-spread');
+                    }, 500); // Wait 500ms after scroll stops
+                }
+            }
+        });
 
         // Initialize All
         document.addEventListener('DOMContentLoaded', () => {

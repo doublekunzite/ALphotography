@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anthony Leong | Portfolio</title>
-    <!-- Google Fonts Removed. Using System Fonts for Privacy/Performance. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
             --bg: #090909;
             --bg-elevated: #0f0f0f;
             --fg: #e8e8e3;
-            --muted: #888888; /* Slightly lighter muted for better read */
+            --muted: #888888;
             --accent: #b8956e;
             --card: #131313;
             --border: #222222;
@@ -22,7 +21,6 @@
         html { scroll-behavior: smooth; }
         
         body {
-            /* System Sans-Serif Stack (Replaces DM Sans) */
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: var(--bg);
             color: var(--fg);
@@ -30,16 +28,8 @@
             line-height: 1.6;
         }
 
-        /* System Serif Stack (Replaces Cormorant Garamond) */
-        .font-display { 
-            font-family: Georgia, "Times New Roman", Times, serif; 
-            font-weight: 400;
-        }
-        
-        /* System Monospace Stack (Replaces JetBrains Mono) */
-        .font-mono { 
-            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace; 
-        }
+        .font-display { font-family: Georgia, "Times New Roman", Times, serif; }
+        .font-mono { font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace; }
 
         /* View Transitions */
         .view-section {
@@ -49,6 +39,10 @@
             top: 0; left: 0; right: 0;
             transition: opacity 0.6s ease, visibility 0.6s ease;
             pointer-events: none;
+            /* Fix: Ensure section fills viewport to prevent blank space */
+            min-height: 100vh; 
+            width: 100%;
+            background: var(--bg); /* Match body bg */
         }
 
         .view-section.active {
@@ -70,7 +64,7 @@
 
         .depth-title {
             font-size: clamp(3.5rem, 12vw, 11rem);
-            font-weight: 400; /* Adjusted for Georgia */
+            font-weight: 300; /* Lighter weight */
             letter-spacing: -0.02em;
             line-height: 0.9;
             text-align: center;
@@ -173,8 +167,6 @@
         }
 
         /* === LAYOUTS === */
-
-        /* 1. Urban: Bento Grid */
         .urban-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
@@ -197,12 +189,10 @@
         }
         .urban-item:hover img { transform: scale(1.05); }
 
-        /* Size Modifiers - Desktop */
         .urban-item[data-size="large"] { grid-column: span 6; grid-row: span 2; aspect-ratio: 2/1; }
         .urban-item[data-size="medium"] { grid-column: span 4; grid-row: span 2; aspect-ratio: 1/1.2; }
         .urban-item[data-size="small"] { grid-column: span 2; grid-row: span 1; aspect-ratio: 1/1; }
 
-        /* 2. Nature: Masonry Layout */
         .nature-masonry {
             column-count: 3;
             column-gap: 16px;
@@ -225,11 +215,8 @@
             display: block;
             transition: filter 0.4s ease;
         }
-        .nature-item:hover img {
-            filter: brightness(1.1);
-        }
+        .nature-item:hover img { filter: brightness(1.1); }
 
-        /* 3. Landscape: Vertical Slider */
         .slider-container {
             height: 100vh;
             overflow-y: auto;
@@ -271,7 +258,6 @@
             transform: translateY(0);
         }
 
-        /* 4. Geometric: Quilt / Grid */
         .geo-wrapper {
             padding: 4rem;
             min-height: 100vh;
@@ -305,37 +291,16 @@
             background: var(--card);
             vertical-align: middle;
         }
-        .geo-grid.is-spread .geo-item {
-            margin: 5px;
-            z-index: 10;
-        }
+        .geo-grid.is-spread .geo-item { margin: 5px; z-index: 10; }
         @media (hover: hover) and (pointer: fine) {
-            .geo-grid:hover .geo-item {
-                margin: 5px;
-                z-index: 10;
-            }
+            .geo-grid:hover .geo-item { margin: 5px; z-index: 10; }
         }
 
-        /* 5. Design Page Layouts */
-        .design-section {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 2rem 6rem;
-        }
+        .design-section { max-width: 1000px; margin: 0 auto; padding: 0 2rem 6rem; }
         .project-block { margin-bottom: 6rem; }
-        .project-title {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: var(--fg);
-        }
-        .project-desc {
-            color: var(--fg);
-            margin-bottom: 2rem;
-            max-width: 600px;
-        }
+        .project-title { font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--fg); }
+        .project-desc { color: var(--fg); margin-bottom: 2rem; max-width: 600px; }
 
-        /* Carousel Slider */
         .carousel-wrapper {
             position: relative;
             width: 100%;
@@ -345,22 +310,9 @@
             border-radius: 8px;
             background: var(--card);
         }
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .carousel-slide {
-            min-width: 100%;
-            aspect-ratio: 4/5; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .carousel-track { display: flex; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .carousel-slide { min-width: 100%; aspect-ratio: 4/5; display: flex; align-items: center; justify-content: center; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
         .carousel-nav {
             position: absolute;
             top: 50%;
@@ -375,19 +327,15 @@
             background: rgba(0,0,0,0.6);
             border: 1px solid rgba(255,255,255,0.1);
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             cursor: pointer;
             pointer-events: auto;
             transition: background 0.3s;
         }
         .carousel-btn:hover { background: rgba(255,255,255,0.1); }
 
-        /* Accessibility Dropdown */
         .accessibility-dropdown {
             margin-top: 1.5rem;
             background: rgba(255,255,255,0.03);
@@ -395,47 +343,21 @@
             border-radius: 6px;
             padding: 1rem;
         }
-        .accessibility-dropdown summary {
-            cursor: pointer;
-            font-size: 0.85rem;
-            color: var(--accent);
-            outline: none;
-        }
+        .accessibility-dropdown summary { cursor: pointer; font-size: 0.85rem; color: var(--accent); outline: none; }
         .accessibility-dropdown summary::-webkit-details-marker { display: none; }
         .accessibility-dropdown[open] summary { margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
         .accessibility-content { font-size: 0.85rem; color: var(--fg); line-height: 1.5; }
 
-        /* PDF Display */
-        .doc-card {
-            display: flex;
-            flex-direction: column;
-            background: var(--card);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-        .doc-preview {
-            width: 100%;
-            aspect-ratio: 8.5/11;
-            background: #fff;
-            position: relative;
-            overflow: hidden;
-        }
+        .doc-card { display: flex; flex-direction: column; background: var(--card); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+        .doc-preview { width: 100%; aspect-ratio: 8.5/11; background: #fff; position: relative; overflow: hidden; }
         .doc-preview img { width: 100%; height: 100%; object-fit: cover; }
-        .doc-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4));
-        }
+        .doc-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4)); }
         .doc-info { padding: 1.5rem; }
         .doc-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: inline-flex; align-items: center; gap: 0.5rem;
             margin-top: 1rem;
             padding: 0.75rem 1.5rem;
-            background: var(--fg);
-            color: var(--bg);
+            background: var(--fg); color: var(--bg);
             border-radius: 4px;
             text-decoration: none;
             font-size: 0.85rem;
@@ -444,124 +366,34 @@
         }
         .doc-btn:hover { background: var(--accent); }
 
-        /* 6. Process Page Layouts */
-        .process-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem 6rem;
-        }
-
-        /* Dev Log Cards */
-        .dev-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 6rem;
-        }
-        .dev-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: transform 0.3s ease, border-color 0.3s;
-        }
-        .dev-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-        .dev-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 0.75rem;
-        }
+        .process-section { max-width: 1200px; margin: 0 auto; padding: 0 2rem 6rem; }
+        
+        /* Dev Grid - allowing 5th item to wrap nicely */
+        .dev-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 6rem; }
+        
+        .dev-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; transition: transform 0.3s ease, border-color 0.3s; }
+        .dev-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .dev-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
         .dev-card-title { font-size: 1.1rem; font-weight: 500; color: var(--fg); }
-        .dev-card-badge {
-            font-size: 0.65rem;
-            padding: 0.25rem 0.5rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-            color: var(--muted);
-            text-transform: uppercase;
-        }
-        
-        /* Updated Contrast Fix */
-        .dev-challenge {
-            font-size: 0.9rem;
-            color: var(--fg); /* Changed to white */
-            font-weight: 500; /* Bolder */
-            margin-bottom: 0.5rem;
-        }
-
-        .dev-prompt {
-            background: rgba(0,0,0,0.3);
-            border-left: 2px solid var(--accent);
-            padding: 0.75rem;
-            margin: 1rem 0;
-            font-family: 'SF Mono', Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-size: 0.75rem;
-            color: #ccc;
-            white-space: pre-wrap;
-        }
-        
-        /* Updated Contrast Fix */
-        .dev-solution {
-            font-size: 0.9rem;
-            color: var(--fg); /* Changed to white */
-            font-weight: 500; /* Bolder */
-        }
+        .dev-card-badge { font-size: 0.65rem; padding: 0.25rem 0.5rem; background: rgba(255,255,255,0.05); border-radius: 4px; color: var(--muted); text-transform: uppercase; }
+        .dev-challenge { font-size: 0.9rem; color: var(--fg); font-weight: 500; margin-bottom: 0.5rem; }
+        .dev-prompt { background: rgba(0,0,0,0.3); border-left: 2px solid var(--accent); padding: 0.75rem; margin: 1rem 0; font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 0.75rem; color: #ccc; white-space: pre-wrap; }
+        .dev-solution { font-size: 0.9rem; color: var(--fg); font-weight: 500; }
         .dev-solution strong { color: var(--accent); }
 
-        /* Workflow Timeline */
-        .timeline-container {
-            position: relative;
-            padding-left: 2rem;
-        }
-        .timeline-line {
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 1px;
-            background: var(--border);
-        }
-        .timeline-node {
-            position: relative;
-            padding-bottom: 3rem;
-        }
+        .timeline-container { position: relative; padding-left: 2rem; }
+        .timeline-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border); }
+        .timeline-node { position: relative; padding-bottom: 3rem; }
         .timeline-node:last-child { padding-bottom: 0; }
-        .timeline-dot {
-            position: absolute;
-            left: -2rem;
-            top: 0.25rem;
-            width: 10px; height: 10px;
-            background: var(--bg);
-            border: 1px solid var(--accent);
-            border-radius: 50%;
-            transform: translateX(-50%);
-        }
-        .timeline-content {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-        .timeline-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: var(--fg);
-        }
-        .timeline-desc {
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
+        .timeline-dot { position: absolute; left: -2rem; top: 0.25rem; width: 10px; height: 10px; background: var(--bg); border: 1px solid var(--accent); border-radius: 50%; transform: translateX(-50%); }
+        .timeline-content { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 1.5rem; border-radius: 8px; }
+        .timeline-title { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--fg); }
+        .timeline-desc { font-size: 0.9rem; color: var(--muted); }
 
         /* Back Button */
         .back-btn {
             position: fixed;
-            top: 5.5rem;
-            left: 2rem;
+            top: 5.5rem; left: 2rem;
             z-index: 100;
             display: flex;
             align-items: center;
@@ -573,14 +405,14 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.3);
             padding: 0.75rem 1.25rem;
             border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.05);
         }
         .back-btn.visible { opacity: 1; visibility: visible; }
-        .back-btn:hover { background: var(--fg); color: var(--bg); }
+        .back-btn:hover { background: rgba(255,255,255,0.1); }
 
         /* === RESPONSIVE === */
         @media (max-width: 1024px) {
@@ -601,7 +433,12 @@
             .geo-item { margin: -10px; }
             .geo-grid.is-spread .geo-item { margin: 5px; }
             .dev-grid { grid-template-columns: 1fr; }
-            .back-btn { top: 6rem; }
+            
+            .back-btn {
+                top: auto; bottom: 2rem; left: 1rem;
+                padding: 0.5rem 0.75rem; font-size: 0.65rem;
+                background: rgba(0,0,0,0.2); border: none;
+            }
         }
     </style>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" type="image/svg+xml">
@@ -625,10 +462,10 @@
 
     <!-- Back Button -->
     <button class="back-btn" id="backBtn" onclick="navigateTo('home')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
-        Back Home
+        Back
     </button>
 
     <!-- HOME VIEW -->
@@ -728,11 +565,9 @@
 
         <div class="process-section">
             
-            <!-- Dev Log Grid -->
             <h2 class="font-display text-3xl mb-6">Key Iterations</h2>
             <div class="dev-grid">
                 
-                <!-- Card 1 -->
                 <div class="dev-card">
                     <div class="dev-card-header">
                         <span class="dev-card-title">Geometric Grid Stability</span>
@@ -743,7 +578,6 @@
                     <p class="dev-solution"><strong>Solution:</strong> Switched from Flexbox to CSS Grid with strict 5-column definition. Used negative/positive margins to create the overlap effect without reflowing the layout.</p>
                 </div>
 
-                <!-- Card 2 -->
                 <div class="dev-card">
                     <div class="dev-card-header">
                         <span class="dev-card-title">Mobile Drift Interaction</span>
@@ -754,7 +588,6 @@
                     <p class="dev-solution"><strong>Solution:</strong> Implemented a dual approach: Touchmove listeners for direct interaction + Sine-wave ambient animation for continuous drift.</p>
                 </div>
 
-                <!-- Card 3 -->
                 <div class="dev-card">
                     <div class="dev-card-header">
                         <span class="dev-card-title">Landscape Gallery Pivot</span>
@@ -765,7 +598,6 @@
                     <p class="dev-solution"><strong>Solution:</strong> Pivoted to a Vertical Slider. This preserved the full-screen immersion without fighting browser behavior.</p>
                 </div>
 
-                <!-- Card 4 -->
                 <div class="dev-card">
                     <div class="dev-card-header">
                         <span class="dev-card-title">Dynamic Aspect Ratios</span>
@@ -776,6 +608,17 @@
                     <p class="dev-solution"><strong>Solution:</strong> Used JS <code>onload</code> to detect natural width/height, applying specific CSS classes to adjust container width dynamically.</p>
                 </div>
 
+                <!-- NEW CARD: Security -->
+                <div class="dev-card">
+                    <div class="dev-card-header">
+                        <span class="dev-card-title">Privacy & Security Hardening</span>
+                        <span class="dev-card-badge">Security</span>
+                    </div>
+                    <p class="dev-challenge">Challenge: External dependencies and potential link vulnerabilities.</p>
+                    <div class="dev-prompt">"I'd rather not use Google Fonts... are there any other possible security risks?"</div>
+                    <p class="dev-solution"><strong>Solution:</strong> Removed external font requests (System Fonts). Added <code>rel="noopener noreferrer"</code> to target="_blank" links to prevent tabnabbing. Audited <code>innerHTML</code> for XSS risks.</p>
+                </div>
+
             </div>
 
             <!-- Workflow Timeline -->
@@ -783,7 +626,6 @@
             <div class="timeline-container">
                 <div class="timeline-line"></div>
 
-                <!-- Node 1 -->
                 <div class="timeline-node">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
@@ -792,7 +634,6 @@
                     </div>
                 </div>
 
-                <!-- Node 2 -->
                 <div class="timeline-node">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
@@ -801,7 +642,6 @@
                     </div>
                 </div>
 
-                <!-- Node 3 -->
                 <div class="timeline-node">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
@@ -823,7 +663,6 @@
         </div>
 
         <div class="design-section">
-            <!-- Project 1: Instagram Carousel -->
             <div class="project-block">
                 <h2 class="project-title font-display">Instagram Carousel</h2>
                 <p class="project-desc">A sample of a post I created for a job application with Trans Manitoba.</p>
@@ -840,17 +679,15 @@
                     </div>
                 </div>
 
-                <!-- Accessibility Dropdown -->
                 <details class="accessibility-dropdown">
                     <summary>Accessibility Notes</summary>
                     <div class="accessibility-content">
-                        <p><strong>Slide 1:</strong> Title slide with black background. Large stylized number 5 in cyan blue with curved flourish. Text reads 'ACTIONS for inclusive workplaces' in white and cyan. Small pink dot below. Attribution: 'From Trans Manitoba' at bottom.</p>
-                        <p><strong>General Notes:</strong> Color contrast ratios tested for WCAG AA compliance. Minimum 24pt type for mobile readability. Sans-serif fonts optimized for screen readers.</p>
+                        <p><strong>Slide 1:</strong> Title slide with black background. Large stylized number 5 in cyan blue with curved flourish. Text reads 'ACTIONS for inclusive workplaces' in white and cyan.</p>
+                        <p><strong>General Notes:</strong> Color contrast ratios tested for WCAG AA compliance. Minimum 24pt type for mobile readability.</p>
                     </div>
                 </details>
             </div>
 
-            <!-- Project 2: Policy Brief -->
             <div class="project-block">
                 <h2 class="project-title font-display">Policy Brief</h2>
                 <p class="project-desc">A formal document outlining strategic recommendations and research findings.</p>
@@ -862,13 +699,10 @@
                     </div>
                     <div class="doc-info">
                         <p style="font-size: 0.9rem; color: var(--muted);">Click below to view the full PDF document in a new tab.</p>
-                        <!-- Security Fix: Added rel="noopener noreferrer" -->
                         <a href="https://drive.google.com/file/d/13vVO8fnX-pezRAO_vXiXl_xkK3fSpZ2h/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="doc-btn">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
                             </svg>
                             View PDF
                         </a>
@@ -976,10 +810,12 @@
                     backBtn.classList.add('visible');
                     const container = targetView.querySelector('.slider-container');
                     if(container) container.scrollTop = 0;
-                    else window.scrollTo(0, 0);
                 } else {
                     backBtn.classList.remove('visible');
                 }
+                
+                // FIX: Always reset window scroll to top for every navigation
+                window.scrollTo(0, 0);
             }
             return false;
         }
@@ -1044,7 +880,6 @@
         function initUrban() {
             const grid = document.getElementById('urbanGrid');
             grid.innerHTML = '';
-            
             siteData.urban.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'urban-item';
@@ -1058,7 +893,6 @@
         function initNature() {
             const grid = document.getElementById('natureGrid');
             grid.innerHTML = '';
-            
             siteData.nature.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'nature-item';
@@ -1071,7 +905,6 @@
         function initLandscape() {
             const container = document.getElementById('landscapeContainer');
             container.innerHTML = '';
-            
             siteData.landscape.forEach(p => {
                 const slide = document.createElement('div');
                 slide.className = 'slider-slide';
@@ -1092,7 +925,6 @@
         function initDesign() {
             const track = document.getElementById('carouselTrack');
             track.innerHTML = '';
-            
             siteData.carousel.forEach(p => {
                 const slide = document.createElement('div');
                 slide.className = 'carousel-slide';
@@ -1104,12 +936,9 @@
         function moveCarousel(direction) {
             const track = document.getElementById('carouselTrack');
             const totalSlides = siteData.carousel.length;
-            
             currentSlide += direction;
-            
             if (currentSlide >= totalSlides) currentSlide = 0;
             if (currentSlide < 0) currentSlide = totalSlides - 1;
-            
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
 
@@ -1117,7 +946,6 @@
         function initGeometric() {
             const grid = document.getElementById('geoGrid');
             grid.innerHTML = '';
-            
             siteData.experimental.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'geo-item';

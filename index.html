@@ -821,7 +821,7 @@
 
         // === GENERATION FUNCTIONS ===
 
-        // 1. Home
+        // 1. Home (Updated for Mobile Drift)
         function initHome() {
             const layer = document.getElementById('floatingLayer');
             layer.innerHTML = '';
@@ -838,18 +838,44 @@
                 layer.appendChild(card);
             });
 
+            // Desktop Mouse Move
             document.addEventListener('mousemove', (e) => {
                 mouseX = (e.clientX / window.innerWidth - 0.5) * 40;
                 mouseY = (e.clientY / window.innerHeight - 0.5) * 40;
             });
 
+            // Mobile Touch Support
+            document.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    mouseX = (e.touches[0].clientX / window.innerWidth - 0.5) * 40;
+                    mouseY = (e.touches[0].clientY / window.innerHeight - 0.5) * 40;
+                }
+            }, { passive: true });
+
             function animate() {
                 targetX += (mouseX - targetX) * 0.08;
                 targetY += (mouseY - targetY) * 0.08;
+
+                // Apply coordinates
+                let finalX = targetX;
+                let finalY = targetY;
+
+                // Mobile Ambient Drift Logic
+                if (window.innerWidth < 768) {
+                    const time = Date.now() / 1000;
+                    // Create a slow, gentle floating motion
+                    const driftX = Math.sin(time * 0.5) * 15; 
+                    const driftY = Math.cos(time * 0.3) * 10;
+                    
+                    // Add drift to the existing position
+                    finalX += driftX;
+                    finalY += driftY;
+                }
+
                 document.querySelectorAll('.float-card').forEach(c => {
                     const d = parseFloat(c.dataset.depth);
                     const r = parseFloat(c.dataset.rotate);
-                    c.style.transform = `rotate(${r}deg) translate(${targetX * d}px, ${targetY * d}px)`;
+                    c.style.transform = `rotate(${r}deg) translate(${finalX * d}px, ${finalY * d}px)`;
                 });
                 requestAnimationFrame(animate);
             }
@@ -937,7 +963,6 @@
             siteData.experimental.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'geo-item';
-                // Rotation logic removed
                 item.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
                 grid.appendChild(item);
             });

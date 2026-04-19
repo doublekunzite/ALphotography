@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anthony Leong | Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Google Fonts Removed. Using System Fonts for Privacy/Performance. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
             --bg: #090909;
             --bg-elevated: #0f0f0f;
             --fg: #e8e8e3;
-            --muted: #5a5a5a;
+            --muted: #888888; /* Slightly lighter muted for better read */
             --accent: #b8956e;
             --card: #131313;
             --border: #222222;
@@ -24,14 +22,24 @@
         html { scroll-behavior: smooth; }
         
         body {
-            font-family: 'DM Sans', sans-serif;
+            /* System Sans-Serif Stack (Replaces DM Sans) */
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: var(--bg);
             color: var(--fg);
             overflow-x: hidden;
             line-height: 1.6;
         }
 
-        .font-display { font-family: 'Cormorant Garamond', serif; }
+        /* System Serif Stack (Replaces Cormorant Garamond) */
+        .font-display { 
+            font-family: Georgia, "Times New Roman", Times, serif; 
+            font-weight: 400;
+        }
+        
+        /* System Monospace Stack (Replaces JetBrains Mono) */
+        .font-mono { 
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace; 
+        }
 
         /* View Transitions */
         .view-section {
@@ -62,8 +70,8 @@
 
         .depth-title {
             font-size: clamp(3.5rem, 12vw, 11rem);
-            font-weight: 300;
-            letter-spacing: -0.03em;
+            font-weight: 400; /* Adjusted for Georgia */
+            letter-spacing: -0.02em;
             line-height: 0.9;
             text-align: center;
             color: var(--fg);
@@ -155,7 +163,7 @@
         }
         .page-title {
             font-size: clamp(2.5rem, 8vw, 6rem);
-            font-weight: 300;
+            font-weight: 400;
             margin-bottom: 1rem;
         }
         .page-subtitle {
@@ -263,38 +271,31 @@
             transform: translateY(0);
         }
 
-        /* 4. Geometric: Quilt / Grid (Updated) */
+        /* 4. Geometric: Quilt / Grid */
         .geo-wrapper {
             padding: 4rem;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* contain overlaps */
+            overflow: hidden;
         }
         .geo-grid {
             display: grid;
-            /* Strict 5 columns */
             grid-template-columns: repeat(5, 1fr);
             width: 100%;
             max-width: 1400px;
         }
-
         .geo-item {
             position: relative;
             overflow: hidden;
             border-radius: 4px;
             background: var(--card);
             cursor: pointer;
-            
-            /* Transition for smooth movement */
             transition: margin 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            
-            /* Quilt State (Default) - Slight Overlap */
             margin: -10px;
             z-index: 1;
         }
-
         .geo-item img {
             width: 100%;
             height: 100%;
@@ -304,15 +305,10 @@
             background: var(--card);
             vertical-align: middle;
         }
-
-        /* Grid State (Spread) */
-        /* Applied on hover (desktop) or via JS class (mobile scroll) */
         .geo-grid.is-spread .geo-item {
-            margin: 5px; /* Spacing */
+            margin: 5px;
             z-index: 10;
         }
-
-        /* Desktop Hover Interaction */
         @media (hover: hover) and (pointer: fine) {
             .geo-grid:hover .geo-item {
                 margin: 5px;
@@ -326,14 +322,10 @@
             margin: 0 auto;
             padding: 0 2rem 6rem;
         }
-        
-        .project-block {
-            margin-bottom: 6rem;
-        }
-
+        .project-block { margin-bottom: 6rem; }
         .project-title {
             font-size: 1.5rem;
-            font-weight: 400;
+            font-weight: 500;
             margin-bottom: 0.5rem;
             color: var(--fg);
         }
@@ -347,7 +339,7 @@
         .carousel-wrapper {
             position: relative;
             width: 100%;
-            max-width: 500px; /* constrain width for vertical images */
+            max-width: 500px;
             margin: 0 auto;
             overflow: hidden;
             border-radius: 8px;
@@ -359,7 +351,6 @@
         }
         .carousel-slide {
             min-width: 100%;
-            /* Updated for 1080x1350 (4:5) aspect ratio */
             aspect-ratio: 4/5; 
             display: flex;
             align-items: center;
@@ -394,9 +385,7 @@
             pointer-events: auto;
             transition: background 0.3s;
         }
-        .carousel-btn:hover {
-            background: rgba(255,255,255,0.1);
-        }
+        .carousel-btn:hover { background: rgba(255,255,255,0.1); }
 
         /* Accessibility Dropdown */
         .accessibility-dropdown {
@@ -414,13 +403,9 @@
         }
         .accessibility-dropdown summary::-webkit-details-marker { display: none; }
         .accessibility-dropdown[open] summary { margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
-        .accessibility-content {
-            font-size: 0.85rem;
-            color: var(--fg);
-            line-height: 1.5;
-        }
+        .accessibility-content { font-size: 0.85rem; color: var(--fg); line-height: 1.5; }
 
-        /* PDF / Document Display */
+        /* PDF Display */
         .doc-card {
             display: flex;
             flex-direction: column;
@@ -428,7 +413,6 @@
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--border);
-            transition: transform 0.3s ease;
         }
         .doc-preview {
             width: 100%;
@@ -437,19 +421,13 @@
             position: relative;
             overflow: hidden;
         }
-        .doc-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .doc-preview img { width: 100%; height: 100%; object-fit: cover; }
         .doc-overlay {
             position: absolute;
             inset: 0;
             background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4));
         }
-        .doc-info {
-            padding: 1.5rem;
-        }
+        .doc-info { padding: 1.5rem; }
         .doc-btn {
             display: inline-flex;
             align-items: center;
@@ -464,14 +442,125 @@
             font-weight: 500;
             transition: background 0.3s;
         }
-        .doc-btn:hover {
-            background: var(--accent);
+        .doc-btn:hover { background: var(--accent); }
+
+        /* 6. Process Page Layouts */
+        .process-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* Dev Log Cards */
+        .dev-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 6rem;
+        }
+        .dev-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, border-color 0.3s;
+        }
+        .dev-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .dev-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+        .dev-card-title { font-size: 1.1rem; font-weight: 500; color: var(--fg); }
+        .dev-card-badge {
+            font-size: 0.65rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+        
+        /* Updated Contrast Fix */
+        .dev-challenge {
+            font-size: 0.9rem;
+            color: var(--fg); /* Changed to white */
+            font-weight: 500; /* Bolder */
+            margin-bottom: 0.5rem;
+        }
+
+        .dev-prompt {
+            background: rgba(0,0,0,0.3);
+            border-left: 2px solid var(--accent);
+            padding: 0.75rem;
+            margin: 1rem 0;
+            font-family: 'SF Mono', Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.75rem;
+            color: #ccc;
+            white-space: pre-wrap;
+        }
+        
+        /* Updated Contrast Fix */
+        .dev-solution {
+            font-size: 0.9rem;
+            color: var(--fg); /* Changed to white */
+            font-weight: 500; /* Bolder */
+        }
+        .dev-solution strong { color: var(--accent); }
+
+        /* Workflow Timeline */
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+        .timeline-node {
+            position: relative;
+            padding-bottom: 3rem;
+        }
+        .timeline-node:last-child { padding-bottom: 0; }
+        .timeline-dot {
+            position: absolute;
+            left: -2rem;
+            top: 0.25rem;
+            width: 10px; height: 10px;
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+        .timeline-content {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--fg);
+        }
+        .timeline-desc {
+            font-size: 0.9rem;
+            color: var(--muted);
         }
 
         /* Back Button */
         .back-btn {
             position: fixed;
-            top: 5.5rem; /* Moved down from 2rem to clear nav */
+            top: 5.5rem;
             left: 2rem;
             z-index: 100;
             display: flex;
@@ -496,40 +585,26 @@
         /* === RESPONSIVE === */
         @media (max-width: 1024px) {
             .nature-masonry { column-count: 2; }
-            /* Adjust grid for tablets */
             .geo-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
         @media (max-width: 768px) {
             .nav-links { gap: 1rem; }
-            
-            /* Urban Grid Mobile Fix */
             .urban-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 0 0.5rem 2rem; }
             .urban-item { grid-column: span 2 !important; grid-row: span 1 !important; aspect-ratio: 3/2 !important; }
             .urban-item[data-size="small"] { grid-column: span 1 !important; aspect-ratio: 1/1 !important; }
             .urban-item[data-size="large"] { aspect-ratio: 4/3 !important; }
-            
             .nature-masonry { column-count: 1; padding: 0 1rem 2rem; }
             .slider-img-container { height: 50vh; }
-            
-            /* Geometric Mobile - 3 Cols, Scroll Trigger */
             .geo-wrapper { padding: 2rem; }
             .geo-grid { grid-template-columns: repeat(3, 1fr); }
-            
-            /* Mobile default is Quilt (overlapping) */
             .geo-item { margin: -10px; }
-            
-            /* Class added by JS on scroll */
-            .geo-grid.is-spread .geo-item {
-                margin: 5px;
-            }
-
-            /* Move back button further down on mobile if needed */
+            .geo-grid.is-spread .geo-item { margin: 5px; }
+            .dev-grid { grid-template-columns: 1fr; }
             .back-btn { top: 6rem; }
         }
     </style>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" type="image/svg+xml">
-
 </head>
 <body>
 
@@ -543,6 +618,7 @@
             <a href="#" onclick="navigateTo('nature')" class="nav-link" data-view="nature">Nature</a>
             <a href="#" onclick="navigateTo('landscape')" class="nav-link" data-view="landscape">Landscape</a>
             <a href="#" onclick="navigateTo('geometric')" class="nav-link" data-view="geometric">Geometric</a>
+            <a href="#" onclick="navigateTo('process')" class="nav-link" data-view="process">Process</a>
             <a href="#" onclick="navigateTo('design')" class="nav-link" data-view="design">Design</a>
         </div>
     </nav>
@@ -597,8 +673,11 @@
                 </div>
             </div>
 
-            <!-- Separated Design Category -->
             <div class="mt-12 pt-8 border-t border-[var(--border)] inline-block px-12">
+                <div onclick="navigateTo('process')" class="cursor-pointer group mb-8">
+                    <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Process</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">Development Notes</p>
+                </div>
                 <div onclick="navigateTo('design')" class="cursor-pointer group">
                     <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors">Design</h3>
                     <p class="text-[var(--muted)] text-sm mt-2">Graphic & Layout</p>
@@ -639,6 +718,103 @@
         </div>
     </section>
 
+    <!-- PROCESS VIEW -->
+    <section id="view-process" class="view-section">
+        <div class="page-header">
+            <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Development</p>
+            <h1 class="font-display page-title">Process Notes</h1>
+            <p class="page-subtitle">A look behind the curtain at the problem-solving workflow used to build this site.</p>
+        </div>
+
+        <div class="process-section">
+            
+            <!-- Dev Log Grid -->
+            <h2 class="font-display text-3xl mb-6">Key Iterations</h2>
+            <div class="dev-grid">
+                
+                <!-- Card 1 -->
+                <div class="dev-card">
+                    <div class="dev-card-header">
+                        <span class="dev-card-title">Geometric Grid Stability</span>
+                        <span class="dev-card-badge">Layout</span>
+                    </div>
+                    <p class="dev-challenge">Challenge: Layout shift was jarring during the "Quilt" to "Grid" transition.</p>
+                    <div class="dev-prompt">"Make the movement smaller... keep the same grid dimensions between the two transitions."</div>
+                    <p class="dev-solution"><strong>Solution:</strong> Switched from Flexbox to CSS Grid with strict 5-column definition. Used negative/positive margins to create the overlap effect without reflowing the layout.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="dev-card">
+                    <div class="dev-card-header">
+                        <span class="dev-card-title">Mobile Drift Interaction</span>
+                        <span class="dev-card-badge">UX</span>
+                    </div>
+                    <p class="dev-challenge">Challenge: Mobile users couldn't trigger the mouse-parallax effect, leading to static images.</p>
+                    <div class="dev-prompt">"Achieve a similar effect on mobile... continuous, gentle floating animation."</div>
+                    <p class="dev-solution"><strong>Solution:</strong> Implemented a dual approach: Touchmove listeners for direct interaction + Sine-wave ambient animation for continuous drift.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="dev-card">
+                    <div class="dev-card-header">
+                        <span class="dev-card-title">Landscape Gallery Pivot</span>
+                        <span class="dev-card-badge">Strategy</span>
+                    </div>
+                    <p class="dev-challenge">Challenge: Horizontal scroll interfered with vertical page scroll, breaking UX.</p>
+                    <div class="dev-prompt">"The horizontal scroll still doesn't work... scrap this functionality and do something simpler."</div>
+                    <p class="dev-solution"><strong>Solution:</strong> Pivoted to a Vertical Slider. This preserved the full-screen immersion without fighting browser behavior.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="dev-card">
+                    <div class="dev-card-header">
+                        <span class="dev-card-title">Dynamic Aspect Ratios</span>
+                        <span class="dev-card-badge">Logic</span>
+                    </div>
+                    <p class="dev-challenge">Challenge: "Polaroid" cards distorted when images were landscape vs. portrait.</p>
+                    <div class="dev-prompt">"Can the 'polaroid' be wider for actual landscape dimensions...?"</div>
+                    <p class="dev-solution"><strong>Solution:</strong> Used JS <code>onload</code> to detect natural width/height, applying specific CSS classes to adjust container width dynamically.</p>
+                </div>
+
+            </div>
+
+            <!-- Workflow Timeline -->
+            <h2 class="font-display text-3xl mb-6">Workflow Strategies</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+
+                <!-- Node 1 -->
+                <div class="timeline-node">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Context Anchoring</h3>
+                        <p class="timeline-desc">Instead of trusting the AI to remember previous states, I provided the full updated codebase before requesting changes. This prevented "reversions" where the AI accidentally re-introduced old bugs or styling.</p>
+                    </div>
+                </div>
+
+                <!-- Node 2 -->
+                <div class="timeline-node">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Exploratory Prompting</h3>
+                        <p class="timeline-desc">Rather than asking for an immediate solution ("Fix this"), I asked for options ("What are some possible display options?"). This allowed me to evaluate trade-offs between different UI patterns before committing code.</p>
+                    </div>
+                </div>
+
+                <!-- Node 3 -->
+                <div class="timeline-node">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Critical Refinement</h3>
+                        <p class="timeline-desc">I requested the AI critique its own suggestions ("Any other ideas?") and explicitly asked to showcase problem-solving in the portfolio, turning the development process itself into a showcase artifact.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
     <!-- DESIGN VIEW -->
     <section id="view-design" class="view-section">
         <div class="page-header">
@@ -653,9 +829,7 @@
                 <p class="project-desc">A sample of a post I created for a job application with Trans Manitoba.</p>
                 
                 <div class="carousel-wrapper">
-                    <div class="carousel-track" id="carouselTrack">
-                        <!-- Slides populated by JS -->
-                    </div>
+                    <div class="carousel-track" id="carouselTrack"></div>
                     <div class="carousel-nav">
                         <button class="carousel-btn" onclick="moveCarousel(-1)" aria-label="Previous Slide">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
@@ -666,18 +840,12 @@
                     </div>
                 </div>
 
-                <!-- Accessibility Notes Dropdown -->
+                <!-- Accessibility Dropdown -->
                 <details class="accessibility-dropdown">
                     <summary>Accessibility Notes</summary>
                     <div class="accessibility-content">
-                        <p><strong>Slide 1:</strong> Title slide with black background. Large stylized number 5 in cyan blue with curved flourish. Text reads 'ACTIONS for inclusive workplaces' in white and cyan. Small pink dot below. Attribution: 'From Trans Manitoba' at bottom. Decorative curved lines in muted pink in top right corner.</p>
-                        <p><strong>Slide 2:</strong> Slide 2 of 6. Black background with large cyan number 01 in top right. White text reads 'SHARE PRONOUNS' in bold uppercase. Cyan body text: 'Add them to email signatures, Zoom names, and introductions. Make it routine.' Horizontal pink line below text. Decorative curved lines in muted pink in top left and bottom right corners.</p>
-                        <p><strong>Slide 3:</strong> Slide 3 of 6. Black background with large cyan number 02 in top right. White text reads 'FIX WASHROOMS' in bold uppercase. Cyan body text: 'Convert single-stall to gender-neutral. Post clear signage. Ensure access on every floor.' Horizontal pink line below text. Decorative curved lines in muted pink in top right and bottom left corners.</p>
-                        <p><strong>Slide 4:</strong> Slide 4 of 6. Black background with large cyan number 03 in top right. White text reads 'UPDATE FORMS' in bold uppercase. Cyan body text: 'Remove 'Mr./Ms.' honorifics. Add 'X' gender markers. Let people use chosen names.' Horizontal pink line below text. Decorative curved lines in muted pink in top left and bottom right corners.</p>
-                        <p><strong>Slide 5:</strong> Slide 5 of 6. Black background with large cyan number 04 in top right. White text reads 'TRAIN YOUR TEAM' in bold uppercase. Cyan body text: 'Bring in 2SLGBTQ+ educators. Interrupt misgendering. Make inclusion everyone's job.' Horizontal pink line below text. Decorative curved lines in muted pink in top right and bottom left corners.</p>
-                        <p><strong>Slide 6:</strong> Final slide. Black background with large cyan number 05 at top. White text reads 'READY TO ACT?' in bold uppercase. Pink rectangular button with black text: 'LEARN MORE'. Cyan email address: 'info@transmanitoba.org'. Small cyan dot below. Text at bottom: 'This is sample portfolio work'. Decorative curved lines in muted pink in top left corner.</p>
-                        <br>
-                        <p><strong>General Notes:</strong> Color contrast ratios tested for WCAG AA compliance. Minimum 24pt type for mobile readability. Sans-serif fonts optimized for screen readers. Logical reading order: number > headline > body > action. Designed for static viewing (no auto-play motion). PDF would require tagging in Adobe Acrobat Pro for full screen reader compatibility. Alternative text provided for all informational images</p>
+                        <p><strong>Slide 1:</strong> Title slide with black background. Large stylized number 5 in cyan blue with curved flourish. Text reads 'ACTIONS for inclusive workplaces' in white and cyan. Small pink dot below. Attribution: 'From Trans Manitoba' at bottom.</p>
+                        <p><strong>General Notes:</strong> Color contrast ratios tested for WCAG AA compliance. Minimum 24pt type for mobile readability. Sans-serif fonts optimized for screen readers.</p>
                     </div>
                 </details>
             </div>
@@ -689,20 +857,18 @@
                 
                 <div class="doc-card">
                     <div class="doc-preview">
-                        <!-- Replace this src with a screenshot of your PDF's first page -->
                         <img src="https://live.staticflickr.com/65535/55168330029_8346d752d7_b.jpg" alt="Policy Brief Cover Page">
                         <div class="doc-overlay"></div>
                     </div>
                     <div class="doc-info">
                         <p style="font-size: 0.9rem; color: var(--muted);">Click below to view the full PDF document in a new tab.</p>
-                        <!-- Replace href with your actual PDF link -->
-                        <a href="https://drive.google.com/file/d/13vVO8fnX-pezRAO_vXiXl_xkK3fSpZ2h/view?usp=sharing" target="_blank" class="doc-btn">
+                        <!-- Security Fix: Added rel="noopener noreferrer" -->
+                        <a href="https://drive.google.com/file/d/13vVO8fnX-pezRAO_vXiXl_xkK3fSpZ2h/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="doc-btn">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
                                 <line x1="16" y1="13" x2="8" y2="13"></line>
                                 <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
                             </svg>
                             View PDF
                         </a>
@@ -775,7 +941,7 @@
                 { src: 'https://live.staticflickr.com/65535/55168307709_5bcb15a398_b.jpg', alt: 'Slide 6' },
             ],
             
-            experimental: [ // Kept key name to match your data, UI is "Geometric"
+            experimental: [
                 { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', title: 'Abstract Form' },
                 { src: 'https://live.staticflickr.com/65535/55156758501_a6b7f87721_b.jpg', title: 'Double Exposure' },
                 { src: 'https://live.staticflickr.com/65535/55166002422_5a98a9f277_b.jpg', title: 'Snow Texture' },
@@ -789,7 +955,6 @@
                 
             ]
         };
-
 
         // === ROUTER ===
         const views = document.querySelectorAll('.view-section');
@@ -821,7 +986,7 @@
 
         // === GENERATION FUNCTIONS ===
 
-        // 1. Home (Updated for Mobile Drift)
+        // 1. Home
         function initHome() {
             const layer = document.getElementById('floatingLayer');
             layer.innerHTML = '';
@@ -838,13 +1003,11 @@
                 layer.appendChild(card);
             });
 
-            // Desktop Mouse Move
             document.addEventListener('mousemove', (e) => {
                 mouseX = (e.clientX / window.innerWidth - 0.5) * 40;
                 mouseY = (e.clientY / window.innerHeight - 0.5) * 40;
             });
 
-            // Mobile Touch Support
             document.addEventListener('touchmove', (e) => {
                 if (e.touches.length > 0) {
                     mouseX = (e.touches[0].clientX / window.innerWidth - 0.5) * 40;
@@ -856,18 +1019,13 @@
                 targetX += (mouseX - targetX) * 0.08;
                 targetY += (mouseY - targetY) * 0.08;
 
-                // Apply coordinates
                 let finalX = targetX;
                 let finalY = targetY;
 
-                // Mobile Ambient Drift Logic
                 if (window.innerWidth < 768) {
                     const time = Date.now() / 1000;
-                    // Create a slow, gentle floating motion
                     const driftX = Math.sin(time * 0.5) * 15; 
                     const driftY = Math.cos(time * 0.3) * 10;
-                    
-                    // Add drift to the existing position
                     finalX += driftX;
                     finalY += driftY;
                 }
@@ -929,7 +1087,7 @@
             });
         }
 
-        // 5. Design (Carousel)
+        // 5. Design
         let currentSlide = 0;
         function initDesign() {
             const track = document.getElementById('carouselTrack');
@@ -955,7 +1113,7 @@
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
 
-        // 6. Geometric (Updated Logic)
+        // 6. Geometric
         function initGeometric() {
             const grid = document.getElementById('geoGrid');
             grid.innerHTML = '';
@@ -973,20 +1131,14 @@
         const geoGrid = document.getElementById('geoGrid');
         
         window.addEventListener('scroll', () => {
-            // Only run on mobile
             if (window.innerWidth < 768) {
-                // Check if geometric view is active to save performance
                 const geoView = document.getElementById('view-geometric');
                 if(geoView && geoView.classList.contains('active')) {
                     geoGrid.classList.add('is-spread');
-                    
-                    // Clear existing timeout
                     clearTimeout(scrollTimeout);
-                    
-                    // Set timeout to remove class after scrolling stops
                     scrollTimeout = setTimeout(() => {
                         geoGrid.classList.remove('is-spread');
-                    }, 500); // Wait 500ms after scroll stops
+                    }, 500);
                 }
             }
         });

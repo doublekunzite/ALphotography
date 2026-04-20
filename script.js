@@ -151,15 +151,14 @@ function initLandscape() {
     const container = document.getElementById('landscapeContainer');
     if(!container) return;
     container.innerHTML = '';
+    
+    // Removed the slider-meta div and title
     siteData.landscape.forEach(p => {
         const slide = document.createElement('div');
         slide.className = 'slider-slide';
         slide.innerHTML = `
             <div class="slider-img-container">
                 <img src="${p.src}" alt="${p.title}">
-            </div>
-            <div class="slider-meta">
-                <h3 class="font-display text-3xl">${p.title}</h3>
             </div>
         `;
         container.appendChild(slide);

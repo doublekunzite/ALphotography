@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process | Anthony Leong</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" type="image/svg+xml">
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <nav class="nav-container">
+        <a href="index.html" class="font-display text-xl tracking-wide" style="font-weight: 400; text-decoration: none; color: var(--fg);">Portfolio</a>
+        <div class="nav-links">
+            <a href="urban.html" class="nav-link">Urban</a>
+            <a href="nature.html" class="nav-link">Nature</a>
+            <a href="landscape.html" class="nav-link">Landscape</a>
+            <a href="geometric.html" class="nav-link">Geometric</a>
+            <a href="process.html" class="nav-link active">Process</a>
+            <a href="design.html" class="nav-link">Design</a>
+        </div>
+    </nav>
+    <a href="index.html" class="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+    </a>
+
+    <div class="page-header">
+        <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Development</p>
+        <h1 class="font-display page-title">Process Notes</h1>
+        <p class="page-subtitle">A look behind the curtain at the problem-solving workflow used to build this site.</p>
+    </div>
+
+    <div class="process-section">
+        <h2 class="font-display text-3xl mb-6">Key Iterations</h2>
+        <div class="dev-grid">
+            
+            <div class="dev-card">
+                <div class="dev-card-header">
+                    <span class="dev-card-title">Geometric Grid Stability</span>
+                    <span class="dev-card-badge">Layout</span>
+                </div>
+                <p class="dev-challenge">Challenge: Layout shift was jarring during the "Quilt" to "Grid" transition.</p>
+                <div class="dev-prompt">"Make the movement smaller... keep the same grid dimensions between the two transitions."</div>
+                <p class="dev-solution"><strong>Solution:</strong> Switched from Flexbox to CSS Grid with strict 5-column definition. Used negative/positive margins to create the overlap effect without reflowing the layout.</p>
+            </div>
+
+            <div class="dev-card">
+                <div class="dev-card-header">
+                    <span class="dev-card-title">Mobile Drift Interaction</span>
+                    <span class="dev-card-badge">UX</span>
+                </div>
+                <p class="dev-challenge">Challenge: Mobile users couldn't trigger the mouse-parallax effect, leading to static images.</p>
+                <div class="dev-prompt">"Achieve a similar effect on mobile... continuous, gentle floating animation."</div>
+                <p class="dev-solution"><strong>Solution:</strong> Implemented a dual approach: Touchmove listeners for direct interaction + Sine-wave ambient animation for continuous drift.</p>
+            </div>
+
+            <div class="dev-card">
+                <div class="dev-card-header">
+                    <span class="dev-card-title">Landscape Gallery Pivot</span>
+                    <span class="dev-card-badge">Strategy</span>
+                </div>
+                <p class="dev-challenge">Challenge: Horizontal scroll interfered with vertical page scroll, breaking UX.</p>
+                <div class="dev-prompt">"The horizontal scroll still doesn't work... scrap this functionality and do something simpler."</div>
+                <p class="dev-solution"><strong>Solution:</strong> Pivoted to a Vertical Slider. This preserved the full-screen immersion without fighting browser behavior.</p>
+            </div>
+
+            <div class="dev-card">
+                <div class="dev-card-header">
+                    <span class="dev-card-title">Dynamic Aspect Ratios</span>
+                    <span class="dev-card-badge">Logic</span>
+                </div>
+                <p class="dev-challenge">Challenge: "Polaroid" cards distorted when images were landscape vs. portrait.</p>
+                <div class="dev-prompt">"Can the 'polaroid' be wider for actual landscape dimensions...?"</div>
+                <p class="dev-solution"><strong>Solution:</strong> Used JS <code>onload</code> to detect natural width/height, applying specific CSS classes to adjust container width dynamically.</p>
+            </div>
+
+            <div class="dev-card">
+                <div class="dev-card-header">
+                    <span class="dev-card-title">Privacy & Security Hardening</span>
+                    <span class="dev-card-badge">Security</span>
+                </div>
+                <p class="dev-challenge">Challenge: External dependencies and potential link vulnerabilities.</p>
+                <div class="dev-prompt">"I'd rather not use Google Fonts... are there any other possible security risks?"</div>
+                <p class="dev-solution"><strong>Solution:</strong> Removed external font requests (System Fonts). Added <code>rel="noopener noreferrer"</code> to target="_blank" links to prevent tabnabbing. Audited <code>innerHTML</code> for XSS risks.</p>
+            </div>
+
+        </div>
+
+        <h2 class="font-display text-3xl mb-6">Workflow Strategies</h2>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-node">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">Context Anchoring</h3>
+                    <p class="timeline-desc">Instead of trusting the AI to remember previous states, I provided the full updated codebase before requesting changes. This prevented "reversions" where the AI accidentally re-introduced old bugs or styling.</p>
+                </div>
+            </div>
+
+            <div class="timeline-node">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">Exploratory Prompting</h3>
+                    <p class="timeline-desc">Rather than asking for an immediate solution ("Fix this"), I asked for options ("What are some possible display options?"). This allowed me to evaluate trade-offs between different UI patterns before committing code.</p>
+                </div>
+            </div>
+
+            <div class="timeline-node">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">Critical Refinement</h3>
+                    <p class="timeline-desc">I requested the AI critique its own suggestions ("Any other ideas?") and explicitly asked to showcase problem-solving in the portfolio, turning the development process itself into a showcase artifact.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="fixed bottom-0 left-0 right-0 p-6 text-center text-xs text-[var(--muted)] pointer-events-none z-40">2026 Anthony Leong</footer>
+    <script src="script.js"></script>
+</body>
+</html>

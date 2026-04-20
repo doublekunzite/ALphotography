@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design | Anthony Leong</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" type="image/svg+xml">
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <nav class="nav-container">
+        <a href="index.html" class="font-display text-xl tracking-wide" style="font-weight: 400; text-decoration: none; color: var(--fg);">Portfolio</a>
+        <div class="nav-links">
+            <a href="urban.html" class="nav-link">Urban</a>
+            <a href="nature.html" class="nav-link">Nature</a>
+            <a href="landscape.html" class="nav-link">Landscape</a>
+            <a href="geometric.html" class="nav-link">Geometric</a>
+            <a href="process.html" class="nav-link">Process</a>
+            <a href="design.html" class="nav-link active">Design</a>
+        </div>
+    </nav>
+    <a href="index.html" class="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+    </a>
+
+    <div class="page-header">
+        <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Category</p>
+        <h1 class="font-display page-title">Graphic Design</h1>
+    </div>
+
+    <div class="design-section">
+        <div class="project-block">
+            <h2 class="project-title font-display">Instagram Carousel</h2>
+            <p class="project-desc">A sample of a post I created for a job application with Trans Manitoba.</p>
+            
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carouselTrack"></div>
+                <div class="carousel-nav">
+                    <button class="carousel-btn" onclick="moveCarousel(-1)" aria-label="Previous Slide">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button class="carousel-btn" onclick="moveCarousel(1)" aria-label="Next Slide">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <details class="accessibility-dropdown">
+                <summary>Accessibility Notes</summary>
+                <div class="accessibility-content">
+                    <p><strong>Slide 1:</strong> Title slide with black background. Large stylized number 5 in cyan blue with curved flourish. Text reads 'ACTIONS for inclusive workplaces' in white and cyan.</p>
+                    <p><strong>General Notes:</strong> Color contrast ratios tested for WCAG AA compliance. Minimum 24pt type for mobile readability.</p>
+                </div>
+            </details>
+        </div>
+
+        <div class="project-block">
+            <h2 class="project-title font-display">Policy Brief</h2>
+            <p class="project-desc">A formal document outlining strategic recommendations and research findings.</p>
+            
+            <div class="doc-card">
+                <div class="doc-preview">
+                    <img src="https://live.staticflickr.com/65535/55168330029_8346d752d7_b.jpg" alt="Policy Brief Cover Page">
+                    <div class="doc-overlay"></div>
+                </div>
+                <div class="doc-info">
+                    <p style="font-size: 0.9rem; color: var(--muted);">Click below to view the full PDF document in a new tab.</p>
+                    <a href="https://drive.google.com/file/d/13vVO8fnX-pezRAO_vXiXl_xkK3fSpZ2h/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="doc-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                        View PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="fixed bottom-0 left-0 right-0 p-6 text-center text-xs text-[var(--muted)] pointer-events-none z-40">2026 Anthony Leong</footer>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -18,14 +18,14 @@ const siteData = {
         { src: 'https://live.staticflickr.com/65535/55167283915_5e42522c49_b.jpg', title: 'Osborne Village', size: 'large' },
         { src: 'https://live.staticflickr.com/65535/55156922973_557dc42fbb_b.jpg', title: 'Dameisha', size: 'medium' },
         { src: 'https://live.staticflickr.com/65535/55167103101_26cf182bab_b.jpg', title: 'Transitway', size: 'small' },
-        { src: 'https://live.staticflickr.com/65535/55167262913_f8465fb0e7_b.jpg', title: 'Capital Airport', size: 'large' },
+        { src: 'https://live.staticflickr.com/65535/55167262913_f8465fb0e7_b.jpg', title: 'Capital Airport', size: 'medium' },
         { src: 'https://live.staticflickr.com/65535/55166203652_44df3e8f6a_b.jpg', title: 'Kilter Board', size: 'small' },
         { src: 'https://live.staticflickr.com/65535/55167348759_b56b46c49d_b.jpg', title: 'China Turtle', size: 'large' },
+        { src: 'https://live.staticflickr.com/65535/55228838736_c9b5f1cbe5_b.jpg', title: 'Turquoise', size: 'medium' },
+		{ src: 'https://live.staticflickr.com/65535/55228838526_18c81161bb_b.jpg', title: 'Right Angle', size: 'small' },
 		{ src: 'https://live.staticflickr.com/65535/55228838711_a34404321f_b.jpg', title: 'Hillside', size: 'medium' },
-        { src: 'https://live.staticflickr.com/65535/55228838736_c9b5f1cbe5_b.jpg', title: 'Turquoise', size: 'large' },
 		{ src: 'https://live.staticflickr.com/65535/55228838781_383ecc1bc5_b.jpg', title: 'Plaza', size: 'medium' },
 		{ src: 'https://live.staticflickr.com/65535/55228838641_c545688817_b.jpg', title: 'Mountain Cityscape', size: 'large' },
-		{ src: 'https://live.staticflickr.com/65535/55228838526_18c81161bb_b.jpg', title: 'Right Angle', size: 'small' },
 		
 		
 		
@@ -88,7 +88,8 @@ const siteData = {
         { src: 'https://live.staticflickr.com/65535/55167392818_f580754663_b.jpg', title: 'The Leaf #4' },
 		{ src: 'https://live.staticflickr.com/65535/55228997433_d849505535_b.jpg', title: 'Blowhole' },
 		{ src: 'https://live.staticflickr.com/65535/55228838526_18c81161bb_b.jpg', title: 'Right Angle' },
-		
+		{ src: 'https://live.staticflickr.com/65535/55229249690_fd33f629f2_b.jpg', title: 'Arcs' },
+			
     ]
 };
 

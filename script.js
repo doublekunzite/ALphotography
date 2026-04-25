@@ -21,6 +21,14 @@ const siteData = {
         { src: 'https://live.staticflickr.com/65535/55167262913_f8465fb0e7_b.jpg', title: 'Capital Airport', size: 'large' },
         { src: 'https://live.staticflickr.com/65535/55166203652_44df3e8f6a_b.jpg', title: 'Kilter Board', size: 'small' },
         { src: 'https://live.staticflickr.com/65535/55167348759_b56b46c49d_b.jpg', title: 'China Turtle', size: 'large' },
+		{ src: 'https://live.staticflickr.com/65535/55228838711_a34404321f_b.jpg', title: 'Hillside', size: 'medium' },
+        { src: 'https://live.staticflickr.com/65535/55228838736_c9b5f1cbe5_b.jpg', title: 'Turquoise', size: 'large' },
+		{ src: 'https://live.staticflickr.com/65535/55228838781_383ecc1bc5_b.jpg', title: 'Plaza', size: 'medium' },
+		{ src: 'https://live.staticflickr.com/65535/55228838641_c545688817_b.jpg', title: 'Mountain Cityscape', size: 'large' },
+		{ src: 'https://live.staticflickr.com/65535/55228838526_18c81161bb_b.jpg', title: 'Right Angle', size: 'small' },
+		
+		
+		
     ],
     nature: [
         { src: 'https://live.staticflickr.com/65535/55167147719_4d1ec4e240_b.jpg', title: 'The Leaf #1' },
@@ -33,6 +41,14 @@ const siteData = {
         { src: 'https://live.staticflickr.com/65535/55167477874_d1868b3a49_b.jpg', title: 'Reed Canyon' },
         { src: 'https://live.staticflickr.com/65535/55167231031_41900ba85e_b.jpg', title: 'Water Texture' },
         { src: 'https://live.staticflickr.com/65535/55166331527_f195e0ccbd_b.jpg', title: 'Tree Roots' },
+		{ src: 'https://live.staticflickr.com/65535/55228838886_875dd05042_b.jpg', title: 'Garden' },
+        { src: 'https://live.staticflickr.com/65535/55229085314_f0a4d475f8_b.jpg', title: 'Crater' },
+		{ src: 'https://live.staticflickr.com/65535/55229085494_957965eed7_b.jpg', title: 'Grass' },
+		{ src: 'https://live.staticflickr.com/65535/55228997123_5c4b86fbab_b.jpg', title: 'Ocean' },
+		{ src: 'https://live.staticflickr.com/65535/55228838546_43f38e98e3_b.jpg', title: 'Tree Frame' },
+		
+
+		
     ],
     landscape: [
         { src: 'https://live.staticflickr.com/65535/55157552599_60ff8894e6_b.jpg', title: 'The Path' },
@@ -44,6 +60,12 @@ const siteData = {
         { src: 'https://live.staticflickr.com/65535/55167477874_d1868b3a49_b.jpg', title: 'Reed Canyon' },
         { src: 'https://live.staticflickr.com/65535/55167477814_5f0e1a7bf5_b.jpg', title: 'Rushing River' },
         { src: 'https://live.staticflickr.com/65535/55167231031_41900ba85e_b.jpg', title: 'Water Texture' },
+		{ src: 'https://live.staticflickr.com/65535/55228997513_7e781c778f_b.jpg', title: 'Islands' },
+		{ src: 'https://live.staticflickr.com/65535/55227932867_e0b5dbf200_b.jpg', title: 'Waves' },
+		{ src: 'https://live.staticflickr.com/65535/55228838761_e849b59987_b.jpg', title: 'Distant Mountain' },
+		
+		
+		
     ],
     carousel: [
         { src: 'https://live.staticflickr.com/65535/55167155767_e8ab1ab26c_b.jpg', alt: 'Title Slide' },
@@ -64,6 +86,9 @@ const siteData = {
         { src: 'https://live.staticflickr.com/65535/55167103046_cbd79f9203_b.jpg', title: 'Lily Pads' },
         { src: 'https://live.staticflickr.com/65535/55167230986_d7e53e1a48_b.jpg', title: 'Snowy Sign' },
         { src: 'https://live.staticflickr.com/65535/55167392818_f580754663_b.jpg', title: 'The Leaf #4' },
+		{ src: 'https://live.staticflickr.com/65535/55228997433_d849505535_b.jpg', title: 'Blowhole' },
+		{ src: 'https://live.staticflickr.com/65535/55228838526_18c81161bb_b.jpg', title: 'Right Angle' },
+		
     ]
 };
 

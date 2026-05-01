@@ -89,6 +89,8 @@ const siteData = {
 		{ src: 'https://live.staticflickr.com/65535/55228997433_d849505535_b.jpg', title: 'Blowhole' },
 		{ src: 'https://live.staticflickr.com/65535/55228838526_18c81161bb_b.jpg', title: 'Right Angle' },
 		{ src: 'https://live.staticflickr.com/65535/55229249690_fd33f629f2_b.jpg', title: 'Arcs' },
+		{ src: 'https://live.staticflickr.com/65535/55242693339_b7db32a9fb_b.jpg', title: 'Fronds' },
+		{ src: 'https://live.staticflickr.com/65535/55242600438_f972f53e6a_b.jpg', title: 'Kaleidoscope' },
 			
     ]
 };

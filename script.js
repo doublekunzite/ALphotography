@@ -3,7 +3,7 @@
 // === DATA ===
 const siteData = {
     floating: [
-        { src: 'https://live.staticflickr.com/65535/55157116684_c8b5ac330d_b.jpg', x: '8%', y: '15%', w: 140, h: 200, rotate: -8, depth: 3 },
+        { src: 'https://live.staticflickr.com/65535/55242600438_f972f53e6a_b.jpg', x: '8%', y: '15%', w: 140, h: 200, rotate: -8, depth: 3 },
         { src: 'https://live.staticflickr.com/65535/55156914563_5a788bdd52_b.jpg', x: '72%', y: '20%', w: 110, h: 110, rotate: 10, depth: 2 },
         { src: 'https://live.staticflickr.com/65535/55157135330_cda3526096_b.jpg', x: '18%', y: '58%', w: 100, h: 130, rotate: 5, depth: 2.5 },
         { src: 'https://live.staticflickr.com/65535/55155867012_8cc0bf1607_b.jpg', x: '62%', y: '65%', w: 120, h: 80, rotate: -4, depth: 1.5 },

@@ -44,6 +44,12 @@ body {
     text-decoration: none;
     position: relative;
     padding-bottom: 4px;
+	
+	 /* ADD THIS: Push text links down to align with Photos button */
+    margin-top: 4px; 
+    
+    /* Optional: Ensure they share the same line-height as the button */
+    line-height: 1.5; 
 }
 .nav-link::after {
     content: '';
@@ -53,11 +59,6 @@ body {
     background: currentColor;
     transition: width 0.3s ease;
 	
-	 /* ADD THIS: Push text links down to align with Photos button */
-    margin-top: 10px; 
-    
-    /* Optional: Ensure they share the same line-height as the button */
-    line-height: 1.5; 
 }
 .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 .nav-link.active { color: var(--accent); }

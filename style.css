@@ -223,3 +223,86 @@ body {
     .dev-grid { grid-template-columns: 1fr; }
     .back-btn { top: auto; bottom: 2rem; left: 1rem; padding: 0.5rem 0.75rem; font-size: 0.65rem; background: rgba(0,0,0,0.2); border: none; }
 }
+
+/* --- Dropdown Menu Styles --- */
+
+/* Container for the dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle; /* Ensures alignment with other links */
+}
+
+/* Style the dropdown toggle button */
+.dropbtn {
+    background: transparent;
+    /* The Light Box */
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 4px;
+    
+    font-family: inherit;
+    /* Match styling of other links */
+    font-size: 0.8rem; 
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--fg);
+    
+    cursor: pointer;
+    padding: 8px 14px; /* Padding creates the box size */
+    
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for the box */
+.dropbtn:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: var(--accent);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Dropdown Content (Hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px; /* Gap between box and menu */
+    min-width: 160px;
+    padding: 12px 0;
+    z-index: 100;
+    
+    /* Glassy Appearance */
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: var(--fg);
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* Hover effect for dropdown links */
+.dropdown-content a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--accent);
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+}

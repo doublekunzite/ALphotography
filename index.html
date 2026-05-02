@@ -9,82 +9,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" type="image/svg+xml">
 
-    <!-- ADDED: CSS for Glassy Dropdown -->
-    <style>
-        /* Container for the dropdown */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        /* The dropdown content (hidden by default) */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%); /* Centers the dropdown */
-            min-width: 160px;
-            padding: 12px 0;
-            z-index: 100;
-            
-            /* Glassy / Transparent Appearance */
-            background: rgba(20, 20, 20, 0.7); /* Dark semi-transparent background */
-            backdrop-filter: blur(15px); /* The blur effect */
-            -webkit-backdrop-filter: blur(15px); /* Safari support */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            
-            /* Animation */
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        /* Links inside the dropdown */
-        .dropdown-content a {
-            color: var(--fg);
-            padding: 10px 20px;
-            text-decoration: none;
-            display: block;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        /* Hover effect for dropdown links */
-        .dropdown-content a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--accent);
-        }
-
-        /* Show the dropdown menu on hover */
-        .dropdown:hover .dropdown-content {
-            display: block;
-            opacity: 1;
-        }
-
-        /* Style the dropdown toggle button */
-        .dropbtn {
-            background: none;
-            border: none;
-            font-family: inherit;
-            font-size: inherit;
-            color: var(--muted);
-            cursor: pointer;
-            padding: 0;
-            transition: color 0.3s;
-        }
-        
-        .dropbtn:hover {
-            color: var(--fg);
-        }
-    </style>
+   
 </head>
 <body>
     <div class="noise-overlay"></div>
 
-    <!-- Navigation -->
+        <!-- Navigation -->
     <nav class="nav-container">
         <a href="index.html" class="font-display text-xl tracking-wide" style="font-weight: 400; text-decoration: none; color: var(--fg);">Portfolio</a>
         <div class="nav-links">

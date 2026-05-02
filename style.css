@@ -251,9 +251,13 @@ body {
     /* CRITICAL: Match padding of your other .nav-link items */
     padding: 8px 14px; 
     
-    /* Remove default button behaviors */
-    margin: 0;
-    line-height: normal;
+    /* --- ALIGNMENT FIXES --- */
+    vertical-align: middle; /* Aligns it relative to sibling elements */
+    margin: 0;              /* Removes any default browser margins */
+    line-height: 1.5;       /* Forces text to sit vertically centered */
+    box-sizing: border-box; /* Ensures padding doesn't increase height */
+    display: inline-block;  /* Behaves like a link, not a form button */
+    /* ---------------------- */
     
     transition: all 0.3s ease;
 }

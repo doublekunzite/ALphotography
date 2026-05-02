@@ -46,7 +46,7 @@ body {
     padding-bottom: 4px;
 	
 	 /* ADD THIS: Push text links down to align with Photos button */
-    margin-top: 4px; 
+    margin-top: 8px; 
     
     /* Optional: Ensure they share the same line-height as the button */
     line-height: 1.5; 

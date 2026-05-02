@@ -52,6 +52,12 @@ body {
     width: 0; height: 1px;
     background: currentColor;
     transition: width 0.3s ease;
+	
+	 /* ADD THIS: Push text links down to align with Photos button */
+    margin-top: 4px; 
+    
+    /* Optional: Ensure they share the same line-height as the button */
+    line-height: 1.5; 
 }
 .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 .nav-link.active { color: var(--accent); }

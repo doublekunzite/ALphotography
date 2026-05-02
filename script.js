@@ -252,3 +252,28 @@ document.addEventListener('DOMContentLoaded', () => {
     initDesign();
     initGeometric();
 });
+
+// Mobile Dropdown Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+        const button = dropdown.querySelector('.dropbtn');
+        
+        button.addEventListener('click', function(e) {
+            // Only prevent default if it's a touch device (no hover)
+            if (window.matchMedia("(hover: none)").matches) {
+                e.preventDefault();
+                // Toggle the 'active' class
+                dropdown.classList.toggle('active');
+            }
+        });
+    });
+
+    // Close dropdown if clicking outside
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+        }
+    });
+});

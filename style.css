@@ -54,7 +54,7 @@ body {
     transition: width 0.3s ease;
 	
 	 /* ADD THIS: Push text links down to align with Photos button */
-    margin-top: 4px; 
+    margin-top: 10px; 
     
     /* Optional: Ensure they share the same line-height as the button */
     line-height: 1.5; 

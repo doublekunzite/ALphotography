@@ -86,7 +86,7 @@ const siteData = {
         { src: 'https://live.staticflickr.com/65535/55167103046_cbd79f9203_b.jpg', title: 'Lily Pads' },
         { src: 'https://live.staticflickr.com/65535/55167230986_d7e53e1a48_b.jpg', title: 'Snowy Sign' },
         { src: 'https://live.staticflickr.com/65535/55167392818_f580754663_b.jpg', title: 'The Leaf #4' },
-		{ src: 'https://live.staticflickr.com/65535/55228997433_d849505535_b.jpg', title: 'Blowhole' },
+		{ src: 'https://live.staticflickr.com/65535/55287496484_dd7d5a1bae_b.jpg', title: 'Chengdu Museum' },
 		{ src: 'https://live.staticflickr.com/65535/55228838526_18c81161bb_b.jpg', title: 'Right Angle' },
 		{ src: 'https://live.staticflickr.com/65535/55229249690_fd33f629f2_b.jpg', title: 'Arcs' },
 		{ src: 'https://live.staticflickr.com/65535/55242693339_b7db32a9fb_b.jpg', title: 'Fronds' },

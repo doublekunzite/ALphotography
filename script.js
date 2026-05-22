@@ -26,8 +26,7 @@ const siteData = {
 		{ src: 'https://live.staticflickr.com/65535/55228838711_a34404321f_b.jpg', title: 'Hillside', size: 'medium' },
 		{ src: 'https://live.staticflickr.com/65535/55228838781_383ecc1bc5_b.jpg', title: 'Plaza', size: 'medium' },
 		{ src: 'https://live.staticflickr.com/65535/55228838641_c545688817_b.jpg', title: 'Mountain Cityscape', size: 'large' },
-		
-		
+		{ src: 'https://live.staticflickr.com/65535/55287496484_dd7d5a1bae_b.jpg', title: 'Chengdu Museum', size: 'medium' },
 		
     ],
     nature: [

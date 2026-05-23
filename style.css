@@ -329,3 +329,15 @@ body {
     visibility: visible;
     opacity: 1;
 }
+
+/* Footer Global Fix */
+footer {
+    width: 100%;
+    text-align: center;
+    /* Ensures it stays fixed at the bottom */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+}

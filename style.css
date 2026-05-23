@@ -330,14 +330,34 @@ body {
     opacity: 1;
 }
 
-/* Footer Global Fix */
+/* === Global Footer Styles === */
 footer {
-    width: 100%;
-    text-align: center;
-    /* Ensures it stays fixed at the bottom */
     position: fixed;
     bottom: 0;
     left: 0;
-    right: 0;
+    width: 100%;
     z-index: 40;
+    
+    /* Visual Styling */
+    text-align: center;
+    padding: 1.5rem; /* p-6 */
+    font-size: 0.75rem; /* text-xs */
+    color: var(--muted); /* Low contrast color */
+    
+    /* Interaction: Allows clicking "through" the footer text 
+       so it doesn't block photos underneath it. */
+    pointer-events: none; 
+    background: transparent;
+}
+
+/* Make sure links inside the footer ARE clickable */
+footer a {
+    pointer-events: auto;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+footer a:hover {
+    color: var(--accent);
 }

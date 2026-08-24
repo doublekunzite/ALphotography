@@ -1,499 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>China — AL Photography</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css">
-  <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>China | Anthony Leong</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css">
+    <style>
+        /* ── China page specific styles ── */
+        :root {
+            --vermillion: #c23a2b;
+            --vermillion-dim: rgba(194, 58, 43, 0.15);
+            --gold-dim: rgba(201, 168, 76, 0.08);
+            --font-serif-cn: 'LXGW WenKai', 'Songti SC', 'SimSun', serif;
+        }
 
-    :root {
-      --bg: #0a0a0a;
-      --bg-elevated: #111111;
-      --text: #e8e8e8;
-      --text-muted: #666666;
-      --vermillion: #c23a2b;
-      --vermillion-dim: rgba(194, 58, 43, 0.15);
-      --gold: #c9a84c;
-      --gold-dim: rgba(201, 168, 76, 0.08);
-      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      --font-serif-cn: 'LXGW WenKai', 'Songti SC', 'SimSun', serif;
-      --nav-height: 56px;
-    }
+        /* Subtle warm ambient glow */
+        .china-page::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse 600px 400px at 85% 10%, var(--vermillion-dim), transparent),
+                radial-gradient(ellipse 500px 500px at 10% 80%, var(--gold-dim), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    html { scroll-behavior: smooth; }
+        .china-page {
+            position: relative;
+        }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-sans);
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
-    }
+        /* Chinese subtitle under page title */
+        .cn-title {
+            font-family: var(--font-serif-cn);
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 300;
+            color: var(--vermillion);
+            margin-top: 10px;
+            letter-spacing: 0.3em;
+        }
 
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+        /* Thin vermillion rule */
+        .cn-rule {
+            width: 40px;
+            height: 1px;
+            background: var(--vermillion);
+            margin: 20px auto 0;
+            opacity: 0.6;
+        }
 
-    /* ── Subtle ink-wash background ── */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background:
-        radial-gradient(ellipse 600px 400px at 85% 10%, var(--vermillion-dim), transparent),
-        radial-gradient(ellipse 500px 500px at 10% 80%, var(--gold-dim), transparent);
-      pointer-events: none;
-      z-index: 0;
-    }
+        /* ── City Tabs ── */
+        .tabs-container {
+            position: sticky;
+            top: 56px;
+            z-index: 50;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 0 clamp(20px, 4vw, 48px);
+        }
 
-    /* ── Navigation ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: var(--nav-height);
-      background: rgba(10, 10, 10, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 clamp(20px, 4vw, 48px);
-      z-index: 100;
-    }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
 
-    .nav-logo {
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text);
-    }
+        .tabs::-webkit-scrollbar { display: none; }
 
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-family: inherit;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 18px 22px;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
 
-    .nav-links a {
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      transition: color 0.3s;
-      position: relative;
-    }
+        .tab-btn .cn-name {
+            font-family: var(--font-serif-cn);
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            opacity: 0.5;
+            transition: opacity 0.3s, color 0.3s;
+        }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--text);
-    }
+        .tab-btn:hover {
+            color: var(--fg);
+        }
 
-    .nav-links a.active::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0; right: 0;
-      height: 1px;
-      background: var(--vermillion);
-    }
+        .tab-btn:hover .cn-name {
+            opacity: 0.7;
+        }
 
-    /* Mobile nav toggle */
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text);
-      cursor: pointer;
-      padding: 4px;
-    }
+        .tab-btn.active {
+            color: var(--fg);
+        }
 
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav-toggle { display: block; }
-      .nav-links.open {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: var(--nav-height);
-        left: 0; right: 0;
-        background: rgba(10,10,10,0.95);
-        backdrop-filter: blur(12px);
-        padding: 20px clamp(20px, 4vw, 48px);
-        gap: 16px;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-      }
-    }
+        .tab-btn.active .cn-name {
+            color: var(--vermillion);
+            opacity: 1;
+        }
 
-    /* ── Page Header ── */
-    .page-header {
-      padding-top: calc(var(--nav-height) + 80px);
-      padding-bottom: 16px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1.5px;
+            background: var(--vermillion);
+            transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    .page-header h1 {
-      font-size: clamp(36px, 6vw, 64px);
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text);
-      line-height: 1;
-    }
+        .tab-btn.active::after {
+            width: 24px;
+        }
 
-    .page-header .cn-title {
-      font-family: var(--font-serif-cn);
-      font-size: clamp(16px, 2.5vw, 22px);
-      font-weight: 300;
-      color: var(--vermillion);
-      margin-top: 12px;
-      letter-spacing: 0.3em;
-    }
+        /* ── Photo Grid (Masonry) ── */
+        .grid-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px clamp(16px, 3vw, 48px) 80px;
+        }
 
-    /* Thin vermillion rule */
-    .page-header .rule {
-      width: 40px;
-      height: 1px;
-      background: var(--vermillion);
-      margin: 24px auto 0;
-      opacity: 0.6;
-    }
+        .photo-grid {
+            columns: 3;
+            column-gap: 12px;
+        }
 
-    /* ── City Tabs ── */
-    .tabs-container {
-      position: sticky;
-      top: var(--nav-height);
-      z-index: 50;
-      background: rgba(10, 10, 10, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      padding: 0 clamp(20px, 4vw, 48px);
-    }
+        .photo-grid .photo-item {
+            break-inside: avoid;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 2px;
+        }
 
-    .tabs {
-      display: flex;
-      justify-content: center;
-      gap: 0;
-      max-width: 900px;
-      margin: 0 auto;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
+        .photo-grid .photo-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.2, 0, 0.2, 1), filter 0.4s;
+        }
 
-    .tabs::-webkit-scrollbar { display: none; }
+        .photo-grid .photo-item:hover img {
+            transform: scale(1.03);
+            filter: brightness(1.05);
+        }
 
-    .tab-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-family: var(--font-sans);
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 18px 24px;
-      cursor: pointer;
-      position: relative;
-      transition: color 0.3s;
-      white-space: nowrap;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
+        .photo-grid .photo-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(194, 58, 43, 0.06) 0%,
+                transparent 40%
+            );
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
 
-    .tab-btn .cn-name {
-      font-family: var(--font-serif-cn);
-      font-size: 11px;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      opacity: 0.5;
-      transition: opacity 0.3s;
-    }
+        .photo-grid .photo-item:hover::after {
+            opacity: 1;
+        }
 
-    .tab-btn:hover {
-      color: var(--text);
-    }
+        /* City panels */
+        .city-panel {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
 
-    .tab-btn:hover .cn-name {
-      opacity: 0.7;
-    }
+        .city-panel.active {
+            display: block;
+        }
 
-    .tab-btn.active {
-      color: var(--text);
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .tab-btn.active .cn-name {
-      color: var(--vermillion);
-      opacity: 1;
-    }
+        /* ── Lightbox ── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s;
+        }
 
-    /* Active indicator line */
-    .tab-btn::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 1.5px;
-      background: var(--vermillion);
-      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+        .lightbox.open {
+            opacity: 1;
+            pointer-events: all;
+        }
 
-    .tab-btn.active::after {
-      width: 24px;
-    }
+        .lightbox img {
+            max-width: 92vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 2px;
+            transform: scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+        }
 
-    @media (max-width: 520px) {
-      .tab-btn {
-        padding: 14px 16px;
-        font-size: 11px;
-      }
-      .tab-btn .cn-name { font-size: 10px; }
-    }
+        .lightbox.open img {
+            transform: scale(1);
+        }
 
-    /* ── Photo Grid (Masonry via CSS columns) ── */
-    .grid-wrapper {
-      position: relative;
-      z-index: 1;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 40px clamp(16px, 3vw, 48px) 80px;
-    }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 28px;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
 
-    .photo-grid {
-      columns: 3;
-      column-gap: 12px;
-    }
+        .lightbox-close:hover {
+            color: var(--fg);
+        }
 
-    .photo-grid .photo-item {
-      break-inside: avoid;
-      margin-bottom: 12px;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      border-radius: 2px;
-    }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--muted);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: color 0.2s, border-color 0.2s;
+        }
 
-    .photo-grid .photo-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.2, 0, 0.2, 1), filter 0.4s;
-    }
+        .lightbox-nav:hover {
+            color: var(--fg);
+            border-color: rgba(255,255,255,0.25);
+        }
 
-    .photo-grid .photo-item:hover img {
-      transform: scale(1.03);
-      filter: brightness(1.05);
-    }
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 20px; }
 
-    /* Subtle hover overlay with vermillion tint */
-    .photo-grid .photo-item::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(194, 58, 43, 0.06) 0%,
-        transparent 40%
-      );
-      opacity: 0;
-      transition: opacity 0.4s;
-      pointer-events: none;
-    }
+        /* ── Responsive Grid ── */
+        @media (max-width: 1024px) {
+            .photo-grid { columns: 2; }
+        }
 
-    .photo-grid .photo-item:hover::after {
-      opacity: 1;
-    }
-
-    /* City panels */
-    .city-panel {
-      display: none;
-      animation: fadeIn 0.4s ease;
-    }
-
-    .city-panel.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Lightbox ── */
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: rgba(0, 0, 0, 0.92);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s;
-    }
-
-    .lightbox.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .lightbox img {
-      max-width: 92vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 2px;
-      transform: scale(0.95);
-      transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
-    }
-
-    .lightbox.open img {
-      transform: scale(1);
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 24px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 28px;
-      cursor: pointer;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s;
-    }
-
-    .lightbox-close:hover {
-      color: var(--text);
-    }
-
-    .lightbox-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-muted);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      transition: color 0.2s, border-color 0.2s;
-    }
-
-    .lightbox-nav:hover {
-      color: var(--text);
-      border-color: rgba(255,255,255,0.25);
-    }
-
-    .lightbox-prev { left: 20px; }
-    .lightbox-next { right: 20px; }
-
-    /* ── Footer ── */
-    footer {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 40px 20px;
-      border-top: 1px solid rgba(255,255,255,0.04);
-      color: var(--text-muted);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* ── Responsive Grid ── */
-    @media (max-width: 1024px) {
-      .photo-grid { columns: 2; }
-    }
-
-    @media (max-width: 560px) {
-      .photo-grid { columns: 1; max-width: 480px; margin: 0 auto; }
-      .grid-wrapper { padding: 28px 16px 60px; }
-    }
-  </style>
+        @media (max-width: 560px) {
+            .photo-grid { columns: 1; max-width: 480px; margin: 0 auto; }
+            .grid-wrapper { padding: 28px 16px 60px; }
+            .tab-btn { padding: 14px 14px; font-size: 11px; }
+            .tab-btn .cn-name { font-size: 10px; }
+        }
+    </style>
 </head>
-<body>
+<body class="china-page">
+    <div class="noise-overlay"></div>
 
-  <!-- Navigation -->
-  <nav>
-    <a href="/" class="nav-logo">AL Photography</a>
-    <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <line x1="3" y1="12" x2="21" y2="12"/>
-        <line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/china" class="active">China</a></li>
-      <!-- Add your other page links here -->
-    </ul>
-  </nav>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <a href="index.html" class="font-display text-xl tracking-wide" style="font-weight: 400; text-decoration: none; color: var(--fg);">Portfolio</a>
+        <div class="nav-links">
+            
+            <!-- Photos Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Photos</button>
+                <div class="dropdown-content">
+                    <a href="urban.html">Urban</a>
+                    <a href="nature.html">Nature</a>
+                    <a href="landscape.html">Landscape</a>
+                    <a href="geometric.html">Geometric</a>
+                    <a href="china.html">China</a>
+                </div>
+            </div>
 
-  <!-- Page Header -->
-  <header class="page-header">
-    <h1>China</h1>
-    <div class="cn-title">中 国</div>
-    <div class="rule"></div>
-  </header>
+            <!-- Standard Links -->
+            <a href="process.html" class="nav-link">Process</a>
+            <a href="design.html" class="nav-link">Design</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
 
-  <!-- City Tabs -->
-  <div class="tabs-container">
-    <div class="tabs">
-      <button class="tab-btn active" data-city="guangzhou">
-        Guangzhou
-        <span class="cn-name">广州</span>
-      </button>
-      <button class="tab-btn" data-city="shenzhen">
-        Shenzhen
-        <span class="cn-name">深圳</span>
-      </button>
-      <button class="tab-btn" data-city="chongqing">
-        Chongqing
-        <span class="cn-name">重庆</span>
-      </button>
-      <button class="tab-btn" data-city="chengdu">
-        Chengdu
-        <span class="cn-name">成都</span>
-      </button>
-    <button class="tab-btn" data-city="qingchengshan">
-  Qingchengshan
-  <span class="cn-name">青城山</span>
-</button>
-<button class="tab-btn" data-city="huanglongxi">
-  Huanglongxi
-  <span class="cn-name">黄龙溪</span>
-</button>
+    <a href="index.html" class="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+    </a>
+
+    <div class="page-header">
+        <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-2">Collection</p>
+        <h1 class="font-display page-title">China</h1>
+        <div class="cn-title">中 国</div>
+        <div class="cn-rule"></div>
+        <p class="page-subtitle">Across southern and southwestern China — cities, mountains, and ancient towns.</p>
     </div>
-  </div>
 
-  <!-- Photo Grids -->
-  <div class="grid-wrapper">
+    <!-- City Tabs -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" data-city="guangzhou">
+                Guangzhou
+                <span class="cn-name">广州</span>
+            </button>
+            <button class="tab-btn" data-city="shenzhen">
+                Shenzhen
+                <span class="cn-name">深圳</span>
+            </button>
+            <button class="tab-btn" data-city="chongqing">
+                Chongqing
+                <span class="cn-name">重庆</span>
+            </button>
+            <button class="tab-btn" data-city="chengdu">
+                Chengdu
+                <span class="cn-name">成都</span>
+            </button>
+            <button class="tab-btn" data-city="qingchengshan">
+                Qingchengshan
+                <span class="cn-name">青城山</span>
+            </button>
+            <button class="tab-btn" data-city="huanglongxi">
+                Huanglongxi
+                <span class="cn-name">黄龙溪</span>
+            </button>
+        </div>
+    </div>
 
-    <!-- Guangzhou -->
+    <!-- Photo Grids -->
+    <div class="grid-wrapper">
+
+        <!-- Guangzhou -->
     <div class="city-panel active" id="guangzhou">
       <div class="photo-grid">
         <!-- Replace src with your actual photos -->
@@ -611,96 +489,89 @@
   </div>
 </div>
 
-  </div>
+    </div>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" aria-label="Close">&times;</button>
-    <button class="lightbox-nav lightbox-prev" aria-label="Previous">&#8249;</button>
-    <img src="" alt="">
-    <button class="lightbox-nav lightbox-next" aria-label="Next">&#8250;</button>
-  </div>
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <button class="lightbox-nav lightbox-prev" aria-label="Previous">&#8249;</button>
+        <img src="" alt="">
+        <button class="lightbox-nav lightbox-next" aria-label="Next">&#8250;</button>
+    </div>
 
-  <!-- Footer -->
-  <footer>
-    &copy; AL Photography
-  </footer>
+    <!-- Footer -->
+    <footer>
+        2026 Anthony Leong
+    </footer>
 
-  <script>
-    // ── Tab Switching ──
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const panels = document.querySelectorAll('.city-panel');
+    <script src="script.js"></script>
+    <script>
+        // ── Tab Switching ──
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const panels = document.querySelectorAll('.city-panel');
 
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const city = btn.dataset.city;
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const city = btn.dataset.city;
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                panels.forEach(p => p.classList.remove('active'));
+                document.getElementById(city).classList.add('active');
+            });
+        });
 
-        tabBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+        // ── Lightbox ──
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const closeBtn = lightbox.querySelector('.lightbox-close');
+        const prevBtn = lightbox.querySelector('.lightbox-prev');
+        const nextBtn = lightbox.querySelector('.lightbox-next');
+        let currentImages = [];
+        let currentIndex = 0;
 
-        panels.forEach(p => p.classList.remove('active'));
-        document.getElementById(city).classList.add('active');
+        function getActiveImages() {
+            const activePanel = document.querySelector('.city-panel.active');
+            return Array.from(activePanel.querySelectorAll('.photo-item img')).map(img => img.src);
+        }
 
-        // Close mobile nav if open
-        document.querySelector('.nav-links')?.classList.remove('open');
-      });
-    });
+        function openLightbox(imgEl) {
+            currentImages = getActiveImages();
+            currentIndex = currentImages.indexOf(imgEl.src);
+            lightboxImg.src = imgEl.src;
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
 
-    // ── Lightbox ──
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
-    const closeBtn = lightbox.querySelector('.lightbox-close');
-    const prevBtn = lightbox.querySelector('.lightbox-prev');
-    const nextBtn = lightbox.querySelector('.lightbox-next');
-    let currentImages = [];
-    let currentIndex = 0;
+        function closeLightbox() {
+            lightbox.classList.remove('open');
+            document.body.style.overflow = '';
+        }
 
-    function getActiveImages() {
-      const activePanel = document.querySelector('.city-panel.active');
-      return Array.from(activePanel.querySelectorAll('.photo-item img')).map(img => img.src);
-    }
+        function navigate(dir) {
+            currentIndex = (currentIndex + dir + currentImages.length) % currentImages.length;
+            lightboxImg.src = currentImages[currentIndex];
+        }
 
-    function openLightbox(imgEl) {
-      currentImages = getActiveImages();
-      // Find the full-res version by replacing the thumbnail URL
-      currentIndex = currentImages.indexOf(imgEl.src);
-      lightboxImg.src = imgEl.src;
-      lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
+        document.querySelectorAll('.photo-item').forEach(item => {
+            item.addEventListener('click', () => {
+                openLightbox(item.querySelector('img'));
+            });
+        });
 
-    function closeLightbox() {
-      lightbox.classList.remove('open');
-      document.body.style.overflow = '';
-    }
+        closeBtn.addEventListener('click', closeLightbox);
+        prevBtn.addEventListener('click', () => navigate(-1));
+        nextBtn.addEventListener('click', () => navigate(1));
 
-    function navigate(dir) {
-      currentIndex = (currentIndex + dir + currentImages.length) % currentImages.length;
-      lightboxImg.src = currentImages[currentIndex];
-    }
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
 
-    // Attach click to all photo items
-    document.querySelectorAll('.photo-item').forEach(item => {
-      item.addEventListener('click', () => {
-        openLightbox(item.querySelector('img'));
-      });
-    });
-
-    closeBtn.addEventListener('click', closeLightbox);
-    prevBtn.addEventListener('click', () => navigate(-1));
-    nextBtn.addEventListener('click', () => navigate(1));
-
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (!lightbox.classList.contains('open')) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') navigate(-1);
-      if (e.key === 'ArrowRight') navigate(1);
-    });
-  </script>
-
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('open')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigate(-1);
+            if (e.key === 'ArrowRight') navigate(1);
+        });
+    </script>
 </body>
 </html>

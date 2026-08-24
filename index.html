@@ -5,21 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anthony Leong | Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <!-- THIS LINE WAS MISSING - It powers the layout classes like text-center and flex -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" type="image/svg+xml">
 
-   
+    <style>
+        /* Project cards */
+        .project-card {
+            background: var(--card, rgba(255,255,255,0.03));
+            border: 1px solid var(--border, rgba(255,255,255,0.06));
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: left;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+        }
+
+        .project-card .card-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .project-card p {
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.65;
+            flex: 1;
+        }
+
+        .project-card .card-arrow {
+            margin-top: 1.5rem;
+            font-size: 1.25rem;
+            color: var(--muted);
+            transition: color 0.25s, transform 0.25s;
+        }
+
+        .project-card:hover .card-arrow {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        /* Photo link rows */
+        .photo-link {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.6rem 0;
+            text-decoration: none;
+            color: inherit;
+            border-bottom: 1px solid var(--border, rgba(255,255,255,0.04));
+            transition: color 0.2s;
+        }
+
+        .photo-link:last-child {
+            border-bottom: none;
+        }
+
+        .photo-link:hover {
+            color: var(--accent);
+        }
+
+        .photo-link:hover .link-arrow {
+            transform: translateX(3px);
+            color: var(--accent);
+        }
+
+        .link-arrow {
+            font-size: 0.8rem;
+            color: var(--muted);
+            transition: transform 0.2s, color 0.2s;
+            flex-shrink: 0;
+        }
+    </style>
 </head>
 <body>
     <div class="noise-overlay"></div>
 
-        <!-- Navigation -->
+    <!-- Navigation -->
     <nav class="nav-container">
         <a href="index.html" class="font-display text-xl tracking-wide" style="font-weight: 400; text-decoration: none; color: var(--fg);">Portfolio</a>
         <div class="nav-links">
-            
-            <!-- Photos Dropdown -->
             <div class="dropdown">
                 <button class="dropbtn">Photos</button>
                 <div class="dropdown-content">
@@ -30,8 +114,6 @@
                     <a href="China.html">China</a>
                 </div>
             </div>
-
-            <!-- Standard Links -->
             <a href="process.html" class="nav-link">Process</a>
             <a href="design.html" class="nav-link">Design</a>
             <a href="contact.html" class="nav-link">Contact</a>
@@ -55,50 +137,75 @@
         </div>
     </div>
 
-    <!-- Home Gallery Preview -->
-    <div class="py-24 px-6 text-center">
-        <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-4">Categories</p>
-        
-        <div class="flex flex-wrap justify-center gap-8 mt-8">
-            <a href="urban.html" class="cursor-pointer group" style="text-decoration: none;">
-                <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors text-[var(--fg)]">Urban</h3>
-                <p class="text-[var(--muted)] text-sm mt-2">Architecture & Streets</p>
-            </a>
-            <a href="nature.html" class="cursor-pointer group" style="text-decoration: none;">
-                <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors text-[var(--fg)]">Nature</h3>
-                <p class="text-[var(--muted)] text-sm mt-2">Organic & Wild</p>
-            </a>
-            <a href="landscape.html" class="cursor-pointer group" style="text-decoration: none;">
-                <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors text-[var(--fg)]">Landscape</h3>
-                <p class="text-[var(--muted)] text-sm mt-2">Horizons & Vistas</p>
-            </a>
-            <a href="geometric.html" class="cursor-pointer group" style="text-decoration: none;">
-                <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors text-[var(--fg)]">Geometric</h3>
-                <p class="text-[var(--muted)] text-sm mt-2">Abstract & Shapes</p>
-            </a>
-            <a href="China.html" class="cursor-pointer group" style="text-decoration: none;">
-                <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors text-[var(--fg)]">China</h3>
-                <p class="text-[var(--muted)] text-sm mt-2">Inspiration from China</p>
-            </a>
-        </div>
+    <!-- Featured Projects -->
+    <div class="py-24 px-6">
+        <div class="max-w-4xl mx-auto">
+            <p class="text-xs uppercase tracking-[0.3em] text-[var(--accent)] mb-4 text-center">Projects</p>
+            <h2 class="font-display text-4xl text-[var(--fg)] text-center mb-12" style="font-weight: 400;">Featured Work</h2>
 
-        <div class="mt-12 pt-8 border-t border-[var(--border)] inline-block px-12">
-            <a href="process.html" class="cursor-pointer group mb-8 block" style="text-decoration: none;">
-                <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors text-[var(--fg)]">Process</h3>
-                <p class="text-[var(--muted)] text-sm mt-2">Development Notes</p>
-            </a>
-            <a href="design.html" class="cursor-pointer group block" style="text-decoration: none;">
-                <h3 class="font-display text-4xl group-hover:text-[var(--accent)] transition-colors text-[var(--fg)]">Design</h3>
-                <p class="text-[var(--muted)] text-sm mt-2">Graphic & Layout</p>
-            </a>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Shoe Store -->
+                <a href="https://stride-soul.vercel.app/" class="project-card">
+                    <span class="card-tag">Web Development</span>
+                    <h3 class="font-display text-[var(--fg)]">Shoe Store</h3>
+                    <p>An e-commerce storefront with an AI-powered chatbot that answers questions about product inventory, sizing, and availability in real time — letting customers find what they need without digging through catalog pages.</p>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <!-- Board Lab -->
+                <a href="https://board-lab.vercel.app/" class="project-card">
+                    <span class="card-tag">Interactive Web App</span>
+                    <h3 class="font-display text-[var(--fg)]">Board Lab</h3>
+                    <p>An interactive Kilter Board explorer with a full graphic display of every hold on the board. Each hold links to detailed photos and descriptions, paired with video demonstrations of climbing moves and problem sequences.</p>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- UPDATED FOOTER (Preserved from your last snippet) -->
+    <!-- Photography Links -->
+    <div class="pb-24 px-6">
+        <div class="max-w-md mx-auto">
+            <p class="text-xs uppercase tracking-[0.3em] text-[var(--muted)] mb-6 text-center">Photography</p>
+
+            <a href="urban.html" class="photo-link">
+                <span class="text-sm">Urban</span>
+                <span class="link-arrow">→</span>
+            </a>
+            <a href="nature.html" class="photo-link">
+                <span class="text-sm">Nature</span>
+                <span class="link-arrow">→</span>
+            </a>
+            <a href="landscape.html" class="photo-link">
+                <span class="text-sm">Landscape</span>
+                <span class="link-arrow">→</span>
+            </a>
+            <a href="geometric.html" class="photo-link">
+                <span class="text-sm">Geometric</span>
+                <span class="link-arrow">→</span>
+            </a>
+            <a href="China.html" class="photo-link">
+                <span class="text-sm">China</span>
+                <span class="link-arrow">→</span>
+            </a>
+
+            <div class="mt-8 pt-6 border-t border-[var(--border)]">
+                <a href="process.html" class="photo-link">
+                    <span class="text-sm">Process</span>
+                    <span class="link-arrow">→</span>
+                </a>
+                <a href="design.html" class="photo-link">
+                    <span class="text-sm">Design</span>
+                    <span class="link-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer class="fixed bottom-0 left-0 right-0 p-6 text-center text-xs text-[var(--muted)] pointer-events-none z-40">
         2026 Anthony Leong
         <span class="mx-2">|</span>
-        <!-- Added LinkedIn Link Here. 'pointer-events-auto' is required to make it clickable. -->
         <a href="https://www.linkedin.com/in/anthony-l-b54748141/" target="_blank" class="pointer-events-auto hover:text-[var(--accent)] transition-colors">LinkedIn</a>
     </footer>
 

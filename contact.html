@@ -92,16 +92,12 @@
             background-color: #444;
         }
 
-        /* Portrait Photo — fade into background */
+ /* Portrait Photo — fade into background */
 .portrait-wrap {
     width: 234px;
     height: 234px;
     margin-bottom: 2.5rem;
     position: relative;
-    border-radius: 50%;
-    overflow: hidden;
-    -webkit-mask-image: radial-gradient(circle, white 50%, transparent 72%);
-    mask-image: radial-gradient(circle, white 50%, transparent 72%);
 }
 
 .portrait-wrap img {
@@ -110,24 +106,8 @@
     object-fit: contain;
     object-position: center;
     display: block;
-    border-radius: 0;
-}
-
-.portrait-wrap::before,
-.portrait-wrap::after {
-    content: '';
-    position: absolute;
-    inset: -45px;
-    border-radius: 50%;
-    z-index: -1;
-}
-
-.portrait-wrap::before {
-    background: radial-gradient(circle, var(--bg) 38%, transparent 70%);
-}
-
-.portrait-wrap::after {
-    background: radial-gradient(circle, transparent 38%, var(--bg) 65%);
+    -webkit-mask-image: radial-gradient(circle, black 42%, transparent 70%);
+    mask-image: radial-gradient(circle, black 42%, transparent 70%);
 }
     </style>
 </head>

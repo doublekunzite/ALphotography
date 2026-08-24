@@ -91,6 +91,40 @@
         .btn-github:hover {
             background-color: #444;
         }
+
+        /* Portrait Photo — fade into background */
+.portrait-wrap {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.portrait-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    display: block;
+}
+
+.portrait-wrap::before,
+.portrait-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -30px;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.portrait-wrap::before {
+    background: radial-gradient(circle, var(--bg) 38%, transparent 70%);
+}
+
+.portrait-wrap::after {
+    background: radial-gradient(circle, transparent 38%, var(--bg) 65%);
+}
     </style>
 </head>
 <body>
@@ -122,6 +156,9 @@
 
     <!-- Main Content -->
     <div class="contact-container">
+        <div class="portrait-wrap">
+    <img src="https://live.staticflickr.com/65535/55485446293_2f29b09d87_b.jpg" alt="Anthony Leong">
+</div>
         <h1 class="contact-title font-display">Get in Touch</h1>
         <p class="contact-description">
             Want to get in touch? Feel free to connect via email or LinkedIn.
